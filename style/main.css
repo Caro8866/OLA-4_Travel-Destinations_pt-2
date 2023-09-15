@@ -17,8 +17,36 @@
   --fw-light: 300;
 }
 
+header {
+  background-color: var(--orange-100);
+}
+
+.logo {
+  display: flex;
+  height: 64px;
+  padding: 12px;
+  align-items: center;
+  gap: 12px;
+}
+
+.type-logo {
+  color: var(--neutral-100);
+  font-family: Inter;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+  letter-spacing: -1.5px;
+}
+
 body {
   font-size: 16px;
+}
+
+.wrapper {
+  max-width: 500px;
+  margin: 0 auto;
+  padding: 0 1rem;
 }
 
 img {
@@ -32,6 +60,10 @@ body * {
   color: var(--neutral-300);
 }
 
+main {
+  padding-top: 2.5rem;
+}
+
 h1,
 h2 {
   font-weight: var(--fw-bold);
@@ -42,6 +74,7 @@ h2 {
 
 h1 {
   font-size: 2.25rem;
+  margin-inline: auto;
 }
 
 h2 {
