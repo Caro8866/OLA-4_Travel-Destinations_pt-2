@@ -1,0 +1,78 @@
+.container_card {
+	display: flex;
+	flex-direction: column;
+	margin-top: 2.5rem;
+	gap: 2.5rem;
+
+	color: var(--neutral-300);
+	font-family: Inter;
+}
+
+.destination_card {
+	display: flex;
+	width: 29.375rem;
+	height: 10.5rem;
+	justify-content: center;
+	align-items: center;
+	gap: 1.1875rem;
+}
+
+.card_image {
+	width: 7.8125rem;
+	height: 10.5rem;
+	flex-shrink: 0;
+	border-radius: 0.3125rem;
+}
+
+.card_country {
+	text-transform: uppercase;
+	font-size: 0.64rem;
+	font-style: normal;
+	font-weight: var(--fw-regular);
+	line-height: normal;
+	letter-spacing: 0.10881rem;
+}
+
+.card_link {
+	color: var(--neutral-200);
+	font-size: 0.64rem;
+	font-style: normal;
+	font-weight: 400;
+	line-height: normal;
+	text-decoration-line: underline;
+}
+
+.card_title {
+	font-size: 1.5625rem;
+	font-style: normal;
+	font-weight: 700;
+	line-height: normal;
+}
+
+.card_date {
+	font-size: 0.64rem;
+	font-style: normal;
+	font-weight: 700;
+	line-height: normal;
+	margin-top: 0.8rem;
+	margin-bottom: 0.5rem;
+}
+
+.card_description {
+	font-size: 0.64rem;
+	font-style: normal;
+	font-weight: 400;
+	line-height: 150%; /* 0.96rem */
+}
+
+.divider {
+	color: var(--orange-100);
+	width: 100%;
+	border: 1px solid var(--orange-100);
+}
+
+.destinations_list {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
