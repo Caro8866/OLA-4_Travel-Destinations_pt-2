@@ -9,10 +9,10 @@ document.addEventListener("DOMContentLoaded", () => {
     errorMessage.textContent = "";
 
     const country = document.querySelector("#country").value;
-    const title = document.querySelector("#title").value;
+    const name = document.querySelector("#title").value;
     const link = document.querySelector("#link").value;
-    const arrivalDate = document.querySelector("#arrival-date").value;
-    const departureDate = document.querySelector("#departure-date").value;
+    const dateStart = document.querySelector("#arrival-date").value;
+    const dateEnd = document.querySelector("#departure-date").value;
     const description = document.querySelector("#description").value;
     const image = document.querySelector("#image").files[0];
 
@@ -27,7 +27,7 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
     }
 
-    if (!validateNonEmpty(title)) {
+    if (!validateNonEmpty(name)) {
       errorMessage.textContent = "Title is required.";
       return;
     }
@@ -37,7 +37,7 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
     }
 
-    if (!validateDates(arrivalDate, departureDate)) {
+    if (!validateDates(dateStart, dateEnd)) {
       errorMessage.textContent = "Departure date should be after or the same as the arrival date.";
       return;
     }
@@ -53,7 +53,7 @@ document.addEventListener("DOMContentLoaded", () => {
       return image;
     }
 
-    let base64 = null; // Define it outside the conditional check
+    let base64 = null;
 
     if (image) {
       try {
@@ -62,22 +62,21 @@ document.addEventListener("DOMContentLoaded", () => {
         console.log(convertedImage);
       } catch (error) {
         console.error("Error converting image to Base64:", error);
-        return; // If there's an error converting, you might want to stop the whole function
+        return;
       }
     }
 
     const processedInput = {
       country: country.trim(),
-      title: title.trim(),
+      name: name.trim(),
       link: link.trim(),
-      arrivalDate: arrivalDate,
-      departureDate: departureDate,
+      dateStart: dateStart,
+      dateEnd: dateEnd,
       description: description.trim(),
       image: base64,
     };
 
     console.log(processedInput);
-    // Reset form after submission
     form.reset();
   });
 });
