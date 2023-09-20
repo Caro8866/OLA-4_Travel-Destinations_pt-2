@@ -43,13 +43,3 @@ app.post("/add", (req, res) => {
 app.listen(port, () => {
   console.log(`Server init at: localhost:${port}`);
 });
-
-// Destination schema
-// ObjectId
-// name*
-// country*
-// dateStart
-// dateEnd
-// description
-// link - maybe automated
-// image

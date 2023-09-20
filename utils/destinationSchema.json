@@ -1,9 +1,9 @@
 {
-  "objectID": "objectID mongo class element",
+  "_id": "objectID mongo class element",
   "name": "destination name value",
   "country": "country",
-  "dateStart": "Mon Oct 01 2012 02:00:00 GMT+0200 (Central European Summer Time)",
-  "dateEnd": "Mon Oct 02 2012 02:00:00 GMT+0200 (Central European Summer Time)",
+  "dateStart": "1995-12-25",
+  "dateEnd": "1995-12-30",
   "description": "Place description",
   "link": "url or null",
   "image": "base64 or null"
