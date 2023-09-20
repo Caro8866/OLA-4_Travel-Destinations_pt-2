@@ -7,8 +7,14 @@ export function validateNonEmpty(value) {
 
 // Validates a URL.
 export function validateURL(url) {
-  const urlRegex = /^https?:\/\/([a-zA-Z0-9.-]+)\.([a-zA-Z]{2,6})([/?].*)?$/;
-  return urlRegex.test(url) || url === "";
+  return (
+    url.includes("https://www.google.com/maps/") ||
+    url.includes("http://www.google.com/maps/") ||
+    url.includes("https://google.com/maps/") ||
+    url.includes("http://google.com/maps/") ||
+    url.includes("http://google.com/maps/search/") ||
+    url === ""
+  );
 }
 
 // Validates the date relationship.
@@ -21,7 +27,9 @@ export function validateDates(arrival, departure) {
 export function validateImage(file) {
   if (!file) return true;
   const allowedExtensions = [".jpg", ".jpeg", ".png"];
-  const ext = file.name.slice(((file.name.lastIndexOf(".") - 1) >>> 0) + 2).toLowerCase();
+  const ext = file.name
+    .slice(((file.name.lastIndexOf(".") - 1) >>> 0) + 2)
+    .toLowerCase();
   return allowedExtensions.includes("." + ext);
 }
 

@@ -6,7 +6,6 @@ function fetchData() {
     method: "GET",
     headers: {
       "Content-type": "application/json",
-      "Access-Control-Allow-Origin": "http://localhost:3000",
     },
   })
     .then((res) => res.json())

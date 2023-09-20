@@ -1,8 +1,17 @@
-import { validateNonEmpty, validateURL, validateDates, validateImage, validateCountry } from "./utils/validate_helpers.js";
+import {
+  validateNonEmpty,
+  validateURL,
+  validateDates,
+  validateImage,
+  validateCountry,
+} from "./utils/validate_helpers.js";
 import { imageToBase64 } from "./utils/image_converter.js";
+
 document.addEventListener("DOMContentLoaded", () => {
   const form = document.querySelector(".add-destination-form");
   const errorMessage = document.querySelector(".error-message");
+
+  let isCountryValid, isNameValid, isLinkValid, isDateValid, isImageValid;
 
   form.addEventListener("submit", async (e) => {
     e.preventDefault();
@@ -16,33 +25,45 @@ document.addEventListener("DOMContentLoaded", () => {
     const description = document.querySelector("#description").value;
     const image = document.querySelector("#image").files[0];
 
+    const isValidCountry = await validateCountry(country);
     if (!validateNonEmpty(country)) {
+      isCountryValid = false;
       errorMessage.textContent = "Country is required.";
       return;
-    }
-
-    const isValidCountry = await validateCountry(country);
-    if (!isValidCountry) {
+    } else if (!isValidCountry) {
+      isCountryValid = false;
       errorMessage.textContent = "Country is not valid or recognized.";
       return;
+    } else {
+      isCountryValid = true;
     }
 
     if (!validateNonEmpty(name)) {
+      isNameValid = false;
       errorMessage.textContent = "Title is required.";
       return;
+    } else {
+      isNameValid = true;
     }
 
-    if (!validateURL(link)) {
+    if (link.length && !validateURL(link)) {
+      isLinkValid = false;
       errorMessage.textContent = "Link is not a valid URL.";
       return;
+    } else {
+      isLinkValid = true;
     }
 
-    if (!validateDates(dateStart, dateEnd)) {
-      errorMessage.textContent = "Departure date should be after or the same as the arrival date.";
+    if (dateStart && dateEnd && !validateDates(dateStart, dateEnd)) {
+      isDateValid = false;
+      errorMessage.textContent =
+        "Departure date should be after or the same as the arrival date.";
       return;
+    } else {
+      isDateValid = true;
     }
 
-    if (!validateImage(image)) {
+    if (image && !validateImage(image)) {
       errorMessage.textContent = "Image format should be .jpg, .jpeg or .png";
       return;
     }
@@ -53,20 +74,23 @@ document.addEventListener("DOMContentLoaded", () => {
       return image;
     }
 
-    let base64 = null;
+    let base64;
 
     if (image) {
       try {
         base64 = await imageToBase64(image);
-        const convertedImage = base64ToImage(base64);
-        console.log(convertedImage);
+        isImageValid = true;
       } catch (error) {
         console.error("Error converting image to Base64:", error);
+        isImageValid = false;
         return;
       }
+    } else {
+      base64 = "";
+      isImageValid = true;
     }
 
-    const processedInput = {
+    let processedInput = {
       country: country.trim(),
       name: name.trim(),
       link: link.trim(),
@@ -76,7 +100,34 @@ document.addEventListener("DOMContentLoaded", () => {
       image: base64,
     };
 
-    console.log(processedInput);
+    console.table([
+      isCountryValid,
+      isNameValid,
+      isDateValid,
+      isLinkValid,
+      isImageValid,
+    ]);
+
+    if (
+      isCountryValid &&
+      isNameValid &&
+      isDateValid &&
+      isLinkValid &&
+      isImageValid
+    ) {
+      // fetch
+
+      fetch("http://localhost:3000/add", {
+        method: "POST",
+        headers: {
+          "Content-type": "application/json",
+        },
+        body: JSON.stringify(processedInput),
+      }).then((res) => {
+        console.log(res);
+      });
+    }
+
     form.reset();
   });
 });
