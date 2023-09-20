@@ -16,17 +16,22 @@ const client = new MongoClient(uri, {
 
 const db = client.db("travelJournal");
 const collection = db.collection("destinations");
+const options = {
+  origin: ["http://127.0.0.1:5500/add.html", "http://127.0.0.1:5500"],
+  methods: ["GET", "POST"],
+  allowedHeaders: ["X-Requested-With,content-type"],
+};
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cors());
 
-app.get("/", async (req, res) => {
+app.get("/", cors(options), async (req, res) => {
   const result = await collection.find().toArray();
   res.status(200).send(result);
 });
 
-app.post("/add", (req, res) => {
+app.post("/add", cors(options), async (req, res, next) => {
   collection.insertOne({
     name: req.body.name,
     country: req.body.country,
@@ -36,8 +41,9 @@ app.post("/add", (req, res) => {
     link: req.body.link,
     image: req.body.image,
   });
-  //   console.log(req.body);
+
   res.status(201).send("Added travel destination");
+  next();
 });
 
 app.listen(port, () => {
