@@ -1,18 +1,20 @@
 // Function to retrieve and display data from local storage
-function readFormData() {
-  const storedData = localStorage.getItem("formDataArray");
-  if (storedData) {
-    formDataArray = JSON.parse(storedData);
+window.addEventListener("load", fetchData);
 
-    formDataArray.forEach((travelDestination) => {
-      displayData(travelDestination);
+function fetchData() {
+  fetch("http://localhost:3000", {
+    method: "GET",
+    headers: {
+      "Content-type": "application/json",
+      "Access-Control-Allow-Origin": "http://localhost:3000",
+    },
+  })
+    .then((res) => res.json())
+    .then((resJSON) => {
+      if (resJSON.length) {
+        resJSON.forEach((el) => displayData(el));
+      }
     });
-
-    // Display or use the formDataArray as needed
-    console.log("Form Data Array:", formDataArray);
-  } else {
-    console.log("No form data found in local storage.");
-  }
 }
 
 function formatDate(inputDate) {
@@ -27,11 +29,11 @@ function formatDate(inputDate) {
   const formatter = new Intl.DateTimeFormat("en-US", options);
   const parts = formatter.formatToParts(date);
   const formattedDate = `${parts[2].value} ${parts[0].value}, ${parts[4].value}`;
-
   return formattedDate;
 }
 
-function displayData(travelDestination) {
+function displayData(destination) {
+  console.log(destination);
   const template = document.getElementById("destination_card_template");
   const clone = document.importNode(template.content, true);
   const list = document.querySelector(".destinations_list");
@@ -43,17 +45,14 @@ function displayData(travelDestination) {
   const cardTitle = clone.querySelector(".card_title");
   const cardDescription = clone.querySelector(".card_description");
 
-  cardCountry.textContent = travelDestination.country;
-  card_arrival_date.textContent = formatDate(travelDestination["arrival-date"]);
-  card_departure_date.textContent = formatDate(
-    travelDestination["departure-date"]
-  );
-  cardTitle.textContent = travelDestination.title;
-  cardDescription.textContent = travelDestination.description;
-  cardLink.href = travelDestination.link;
+  cardCountry.textContent = destination.country;
+  card_arrival_date.textContent = formatDate(destination["dateStart"]);
+  card_departure_date.textContent = formatDate(destination["dateEnd"]);
+  cardTitle.textContent = destination.name;
+  cardDescription.textContent = destination.description;
+  cardLink.href = destination.link;
 
   list.appendChild(clone);
 }
 
 // Use window.onload to ensure the code runs when the page is fully loaded
-window.addEventListener("load", readFormData);

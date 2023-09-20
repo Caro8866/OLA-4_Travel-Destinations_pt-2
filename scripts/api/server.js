@@ -2,6 +2,7 @@ const express = require("express");
 const app = express();
 const port = 3000;
 const { MongoClient, ServerApiVersion } = require("mongodb");
+const cors = require("cors");
 
 const uri = "mongodb://127.0.0.1:27017";
 
@@ -18,11 +19,11 @@ const collection = db.collection("destinations");
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(cors());
 
 app.get("/", async (req, res) => {
   const result = await collection.find().toArray();
-  console.log(result);
-  res.status(200).send("INIT");
+  res.status(200).send(result);
 });
 
 app.post("/add", (req, res) => {
