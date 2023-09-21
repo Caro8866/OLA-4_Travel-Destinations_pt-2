@@ -2,7 +2,7 @@
 window.addEventListener("load", fetchData);
 
 function fetchData() {
-  fetch("http://localhost:3000", {
+  fetch("http://localhost:3000/destinations", {
     method: "GET",
     headers: {
       "Content-type": "application/json",
