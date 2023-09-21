@@ -1,7 +1,7 @@
+const { MongoClient, ServerApiVersion, ObjectId } = require("mongodb");
 const express = require("express");
 const app = express();
 const port = 3000;
-const { MongoClient, ServerApiVersion } = require("mongodb");
 const cors = require("cors");
 
 const uri = "mongodb://127.0.0.1:27017";
@@ -26,24 +26,34 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cors());
 
-app.get("/", cors(options), async (req, res) => {
+app.get("/destinations", cors(options), async (req, res, next) => {
   const result = await collection.find().toArray();
   res.status(200).send(result);
+  next();
 });
 
-app.post("/add", cors(options), async (req, res, next) => {
-  collection.insertOne({
-    name: req.body.name,
-    country: req.body.country,
-    dateStart: req.body.dateStart,
-    dateEnd: req.body.dateEnd,
-    description: req.body.description,
-    link: req.body.link,
-    image: req.body.image,
-  });
-
-  res.status(201).send("Added travel destination");
-  next();
+app.post("/destinations", cors(options), async (req, res, next) => {
+  collection
+    .insertOne({
+      name: req.body.name,
+      country: req.body.country,
+      dateStart: req.body.dateStart,
+      dateEnd: req.body.dateEnd,
+      description: req.body.description,
+      link: req.body.link,
+      image: req.body.image,
+    })
+    .then((response) => {
+      const resID = new ObjectId(response.insertedId);
+      console.log(resID);
+      res.status(201).json({ insertedID: resID });
+      next();
+    })
+    .catch((err) => {
+      console.log(err);
+      res.status(500).send(err);
+      next();
+    });
 });
 
 app.listen(port, () => {
