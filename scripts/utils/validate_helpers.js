@@ -8,7 +8,13 @@ export function validateNonEmpty(value) {
 // Validates a URL.
 export function validateURL(url) {
   return (
-    url.includes("https://www.google.com/maps/") || url.includes("http://www.google.com/maps/") || url.includes("https://google.com/maps/") || url.includes("http://google.com/maps/") || url.includes("http://google.com/maps/search/") || url === ""
+    url.includes("https://www.google.com/maps/") ||
+    url.includes("http://www.google.com/maps/") ||
+    url.includes("https://google.com/maps/") ||
+    url.includes("http://google.com/maps/") ||
+    url.includes("http://google.com/maps/search/") ||
+    url.includes("https://maps.app.goo.gl/") ||
+    url === ""
   );
 }
 
