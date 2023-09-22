@@ -12,6 +12,13 @@ function fetchData() {
 		.then((resJSON) => {
 			if (resJSON.length) {
 				resJSON.forEach((el) => displayData(el));
+			} else {
+				const list = document.querySelector(".destinations_list");
+				const addDestinationsMessage = document.createElement("p");
+				addDestinationsMessage.textContent =
+					"You have no destinations in you travel journal.";
+				addDestinationsMessage.classList.add("no_destinations");
+				list.appendChild(addDestinationsMessage);
 			}
 		});
 }
@@ -35,6 +42,8 @@ function displayData(destination) {
 	const template = document.getElementById("destination_card_template");
 	const clone = document.importNode(template.content, true);
 	const list = document.querySelector(".destinations_list");
+
+	console.log(list.hasChildNodes());
 
 	const cardCountry = clone.querySelector(".card_country");
 	const card_arrival_date = clone.querySelector(".card_arrival_date");
