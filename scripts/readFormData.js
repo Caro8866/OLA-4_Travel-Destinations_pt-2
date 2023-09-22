@@ -59,14 +59,18 @@ function displayData(destination) {
 
 	if (!destination["dateStart"] && !destination["dateEnd"]) {
 		cardDate.textContent = "No travel dates were provided";
+	} else if (destination["dateStart"] && destination["dateEnd"]) {
+		cardDate.textContent = `${formatDate(
+			destination["dateStart"]
+		)} - ${formatDate(destination["dateEnd"])}`;
 	} else {
-		card_arrival_date.textContent = destination["dateStart"]
-			? formatDate(destination["dateStart"])
-			: "Arrival date was not specified";
+		destination["dateStart"]
+			? (card_arrival_date.textContent = formatDate(destination["dateStart"]))
+			: card_arrival_date.remove();
 
-		card_departure_date.textContent = destination["dateEnd"]
-			? formatDate(destination["dateEnd"])
-			: "Departure date was not specified";
+		destination["dateEnd"]
+			? (card_departure_date.textContent = formatDate(destination["dateEnd"]))
+			: card_departure_date.remove();
 	}
 
 	destination.description
