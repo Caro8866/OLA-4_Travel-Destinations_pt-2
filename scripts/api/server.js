@@ -32,7 +32,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cors());
 
-app.get("/destinations", cors(options), (req, res, next) => {
+app.get("/destinations", cors(options), (req, res) => {
   collection
     .find()
     .toArray()
@@ -42,7 +42,6 @@ app.get("/destinations", cors(options), (req, res, next) => {
     .catch((err) => {
       res.status(500).send(err);
     });
-  next();
 });
 
 app.post("/destinations", cors(options), (req, res, next) => {
