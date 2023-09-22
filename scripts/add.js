@@ -78,7 +78,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (image) {
       try {
-        base64 = await imageToBase64(image);
+        console.log(image.size, "before compression");
+        // image compression
+        const compressedImage = await compressImage(image);
+        console.log(compressedImage.size, "after compression");
+        // Convert compressed image to base64
+        base64 = await imageToBase64(compressedImage);
+        console.log(base64, "after compression");
+
         isImageValid = true;
       } catch (error) {
         console.error("Error converting image to Base64:", error);
@@ -107,8 +114,6 @@ document.addEventListener("DOMContentLoaded", () => {
       isLinkValid &&
       isImageValid
     ) {
-      // fetch
-      console.log(processedInput);
       fetch("http://localhost:3000/destinations", {
         method: "POST",
         headers: {
@@ -119,8 +124,29 @@ document.addEventListener("DOMContentLoaded", () => {
         .then((res) => res.json())
         .then((resJSON) => {
           form.reset();
-          console.log(resJSON);
+          showToaster("positive", `Created ${resJSON.insertedID}`);
+        })
+        .catch((err) => {
+          console.log(err);
+          showToaster("negative", "Something went wrong, try again.");
         });
     }
   });
 });
+
+function showToaster(type, message) {
+  const parent = document.querySelector(".toaster-wrapper");
+  const template = document.querySelector(`#toaster-${type}`);
+  const clone = document.importNode(template.content, true);
+  clone.querySelector("p").textContent = `${message}`;
+  parent.appendChild(clone);
+  setTimeout(() => {
+    parent.querySelector("p:last-of-type").classList.add("show-toast");
+  }, 10);
+  setTimeout(() => {
+    parent.querySelector("p:last-of-type").classList.remove("show-toast");
+  }, 3000);
+  setTimeout(() => {
+    parent.querySelector("p:last-of-type").remove();
+  }, 3800);
+}

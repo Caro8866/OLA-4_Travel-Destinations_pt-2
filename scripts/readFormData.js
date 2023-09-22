@@ -32,7 +32,6 @@ function formatDate(inputDate) {
 }
 
 function displayData(destination) {
-	console.log(destination);
 	const template = document.getElementById("destination_card_template");
 	const clone = document.importNode(template.content, true);
 	const list = document.querySelector(".destinations_list");

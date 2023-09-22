@@ -27,3 +27,9 @@ textarea {
   justify-content: space-between;
   padding-inline: 2rem;
 }
+
+.note {
+  font-size: 0.8rem;
+  color: var(--neutral-200);
+  margin-top: 0.5rem;
+}

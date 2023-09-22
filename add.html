@@ -74,17 +74,30 @@
 					<div class="form-group">
 						<label for="image">Image</label>
 						<input type="file" name="image" id="image" />
+						<p class="note">Maximum file size is 2mb</p>
 					</div>
 					<div class="error-message"></div>
 					<div class="buttons">
-						<a href="index.html" type="button" class="btn-secondary btn-cancel"
-							>Cancel</a
-						>
+						<button type="button" class="btn-secondary btn-cancel">
+							Cancel
+						</button>
 						<button type="submit" class="btn-primary btn-save">Save</button>
 					</div>
 				</form>
 			</div>
 		</main>
+		<section class="toaster-wrapper">
+			<!-- <p class="toast toast-positive">TOASTER MSG</p>
+      <p class="toast toast-negative">TOASTER MSG</p>
+      <p class="toast toast-positive">TOASTER MSG</p> -->
+		</section>
+
+		<template id="toaster-positive">
+			<p class="toast toast-positive">TOAST MSG</p>
+		</template>
+		<template>
+			<p class="toast toast-negative">TOAST MSG</p>
+		</template>
 		<script type="module" src="scripts/add.js"></script>
 	</body>
 </html>
