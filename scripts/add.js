@@ -78,7 +78,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (image) {
       try {
-        base64 = await imageToBase64(image);
+        console.log(image.size, "before compression");
+        // image compression
+        const compressedImage = await compressImage(image);
+        console.log(compressedImage.size, "after compression");
+        // Convert compressed image to base64
+        base64 = await imageToBase64(compressedImage);
+        console.log(base64, "after compression");
+
         isImageValid = true;
       } catch (error) {
         console.error("Error converting image to Base64:", error);

@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "browser-image-compression": "^2.0.2",
     "cors": "^2.8.5",
     "express": "^4.18.2",
     "html": "^1.0.0",

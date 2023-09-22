@@ -8,12 +8,7 @@ export function validateNonEmpty(value) {
 // Validates a URL.
 export function validateURL(url) {
   return (
-    url.includes("https://www.google.com/maps/") ||
-    url.includes("http://www.google.com/maps/") ||
-    url.includes("https://google.com/maps/") ||
-    url.includes("http://google.com/maps/") ||
-    url.includes("http://google.com/maps/search/") ||
-    url === ""
+    url.includes("https://www.google.com/maps/") || url.includes("http://www.google.com/maps/") || url.includes("https://google.com/maps/") || url.includes("http://google.com/maps/") || url.includes("http://google.com/maps/search/") || url === ""
   );
 }
 
@@ -26,10 +21,8 @@ export function validateDates(arrival, departure) {
 // Validates image extension.
 export function validateImage(file) {
   if (!file) return true;
-  const allowedExtensions = [".jpg", ".jpeg", ".png"];
-  const ext = file.name
-    .slice(((file.name.lastIndexOf(".") - 1) >>> 0) + 2)
-    .toLowerCase();
+  const allowedExtensions = [".jpg", ".jpeg", ".png", ".webp", ".avif"];
+  const ext = file.name.slice(((file.name.lastIndexOf(".") - 1) >>> 0) + 2).toLowerCase();
   return allowedExtensions.includes("." + ext);
 }
 
