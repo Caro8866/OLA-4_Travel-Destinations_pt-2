@@ -2,7 +2,7 @@
 window.addEventListener("load", fetchData);
 
 function fetchData() {
-  fetch("http://localhost:3000", {
+  fetch("http://localhost:3000/destinations", {
     method: "GET",
     headers: {
       "Content-type": "application/json",
@@ -43,6 +43,7 @@ function displayData(destination) {
   const cardLink = clone.querySelector(".card_link");
   const cardTitle = clone.querySelector(".card_title");
   const cardDescription = clone.querySelector(".card_description");
+  const cardImage = clone.querySelector(".card_image");
 
   cardCountry.textContent = destination.country;
   card_arrival_date.textContent = formatDate(destination["dateStart"]);
@@ -50,6 +51,7 @@ function displayData(destination) {
   cardTitle.textContent = destination.name;
   cardDescription.textContent = destination.description;
   cardLink.href = destination.link;
+  destination.image && (cardImage.src = destination.image);
 
   list.appendChild(clone);
 }

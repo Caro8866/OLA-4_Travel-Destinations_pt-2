@@ -100,14 +100,6 @@ document.addEventListener("DOMContentLoaded", () => {
       image: base64,
     };
 
-    console.table([
-      isCountryValid,
-      isNameValid,
-      isDateValid,
-      isLinkValid,
-      isImageValid,
-    ]);
-
     if (
       isCountryValid &&
       isNameValid &&
@@ -116,18 +108,19 @@ document.addEventListener("DOMContentLoaded", () => {
       isImageValid
     ) {
       // fetch
-
-      fetch("http://localhost:3000/add", {
+      console.log(processedInput);
+      fetch("http://localhost:3000/destinations", {
         method: "POST",
         headers: {
           "Content-type": "application/json",
         },
         body: JSON.stringify(processedInput),
-      }).then((res) => {
-        console.log(res);
-      });
+      })
+        .then((res) => res.json())
+        .then((resJSON) => {
+          form.reset();
+          console.log(resJSON);
+        });
     }
-
-    form.reset();
   });
 });
