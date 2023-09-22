@@ -58,13 +58,15 @@ This project was about creating a simple web application to record and view trav
 4. Start the server:
    `node scripts/api/server.js`
 
-5. Open your browser and navigate to:
+5. Start live-server
+
+7. Open your browser and navigate to:
    http://127.0.0.1:5500/
 
 ## Usage
 
-- After setting up the project, open your browser and go to http://127.0.0.1:5500/ to view recorded travel destinations.
-- To add a new entry, navigate to http://127.0.0.1:5500/add and fill out the form with your travel details.
+- After setting up the project, start live-server, open your browser and go to http://127.0.0.1:5500/ to view recorded travel destinations.
+- To add a new entry, navigate to http://127.0.0.1:5500/add.html and fill out the form with your travel details.
 
 ## Contributers
 
