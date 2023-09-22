@@ -5,7 +5,7 @@ import {
   validateImage,
   validateCountry,
 } from "./utils/validate_helpers.js";
-import { imageToBase64 } from "./utils/image_converter.js";
+import { imageToBase64, compressImage } from "./utils/image_helpers.js";
 
 document.addEventListener("DOMContentLoaded", () => {
   const form = document.querySelector(".add-destination-form");
