@@ -107,8 +107,6 @@ document.addEventListener("DOMContentLoaded", () => {
       isLinkValid &&
       isImageValid
     ) {
-      // fetch
-      console.log(processedInput);
       fetch("http://localhost:3000/destinations", {
         method: "POST",
         headers: {
@@ -119,7 +117,7 @@ document.addEventListener("DOMContentLoaded", () => {
         .then((res) => res.json())
         .then((resJSON) => {
           form.reset();
-          console.log(resJSON);
+          // throw toaster
         });
     }
   });
