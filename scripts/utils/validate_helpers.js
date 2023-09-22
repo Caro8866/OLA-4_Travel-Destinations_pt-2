@@ -13,6 +13,7 @@ export function validateURL(url) {
     url.includes("https://google.com/maps/") ||
     url.includes("http://google.com/maps/") ||
     url.includes("http://google.com/maps/search/") ||
+    url.includes("https://maps.app.goo.gl/") ||
     url === ""
   );
 }
