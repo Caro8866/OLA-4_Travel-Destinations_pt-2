@@ -1,5 +1,7 @@
 # OLA-3 Travel Destination
 
+Repository link - https://github.com/Caro8866/OLA-3_Travel-Destinations_pt-1
+
 This project was about creating a simple web application to record and view travel destinations. We used NodeJs/Express for the backend, MongoDB for the database, and vanilla JavaScript for the frontend. This project taught us how to work with having server side code and client side code.
 
 ## Features
