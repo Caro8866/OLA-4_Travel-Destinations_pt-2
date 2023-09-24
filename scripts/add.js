@@ -28,11 +28,11 @@ document.addEventListener("DOMContentLoaded", () => {
     const isValidCountry = await validateCountry(country);
     if (!validateNonEmpty(country)) {
       isCountryValid = false;
-      errorMessage.textContent = "Country is required.";
+      showToaster("negative", "Country is required.");
       return;
     } else if (!isValidCountry) {
       isCountryValid = false;
-      errorMessage.textContent = "Country is not valid or recognized.";
+      showToaster("negative", "Country is not valid or recognized.");
       return;
     } else {
       isCountryValid = true;
@@ -40,7 +40,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (!validateNonEmpty(name)) {
       isNameValid = false;
-      errorMessage.textContent = "Title is required.";
+      showToaster("negative", "Title is required.");
       return;
     } else {
       isNameValid = true;
@@ -48,7 +48,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (link.length && !validateURL(link)) {
       isLinkValid = false;
-      errorMessage.textContent = "Link is not a valid URL.";
+      showToaster("negative", "Link is not a valid URL.");
       return;
     } else {
       isLinkValid = true;
@@ -56,15 +56,17 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (dateStart && dateEnd && !validateDates(dateStart, dateEnd)) {
       isDateValid = false;
-      errorMessage.textContent =
-        "Departure date should be after or the same as the arrival date.";
+      showToaster(
+        "negative",
+        "Departure date should be after or the same as the arrival date."
+      );
       return;
     } else {
       isDateValid = true;
     }
 
     if (image && !validateImage(image)) {
-      errorMessage.textContent = "Image format should be .jpg, .jpeg or .png";
+      showToaster("negative", "Image format should be .jpg, .jpeg or .png");
       return;
     }
 
@@ -124,7 +126,8 @@ document.addEventListener("DOMContentLoaded", () => {
         .then((res) => res.json())
         .then((resJSON) => {
           form.reset();
-          showToaster("positive", `Created ${resJSON.insertedID}`);
+          console.log(resJSON.insertedID);
+          showToaster("positive", `Entry created successfullyCreated `);
         })
         .catch((err) => {
           console.log(err);
@@ -145,8 +148,8 @@ function showToaster(type, message) {
   }, 10);
   setTimeout(() => {
     parent.querySelector("p:last-of-type").classList.remove("show-toast");
-  }, 3000);
+  }, 4000);
   setTimeout(() => {
     parent.querySelector("p:last-of-type").remove();
-  }, 3800);
+  }, 4800);
 }
