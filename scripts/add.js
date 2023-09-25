@@ -127,7 +127,7 @@ document.addEventListener("DOMContentLoaded", () => {
         .then((resJSON) => {
           form.reset();
           console.log(resJSON.insertedID);
-          showToaster("positive", `Entry created successfullyCreated `);
+          showToaster("positive", `Entry created successfully`);
         })
         .catch((err) => {
           console.log(err);
