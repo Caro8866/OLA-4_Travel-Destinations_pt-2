@@ -1,21 +1,22 @@
-import {
-  validateNonEmpty,
-  validateURL,
-  validateDates,
-  validateImage,
-  validateCountry,
-} from "./utils/validate_helpers.js";
+import { validateNonEmpty, validateURL, validateDates, validateImage, validateCountry } from "./utils/validate_helpers.js";
 import { imageToBase64, compressImage } from "./utils/image_helpers.js";
+import countries from "../utils/countries.js";
 
 document.addEventListener("DOMContentLoaded", () => {
   const form = document.querySelector(".add-destination-form");
-  const errorMessage = document.querySelector(".error-message");
+  const countrySelect = document.querySelector("#country");
+
+  countries.forEach((country) => {
+    const option = document.createElement("option");
+    option.value = country;
+    option.textContent = country;
+    countrySelect.appendChild(option);
+  });
 
   let isCountryValid, isNameValid, isLinkValid, isDateValid, isImageValid;
 
   form.addEventListener("submit", async (e) => {
     e.preventDefault();
-    errorMessage.textContent = "";
 
     const country = document.querySelector("#country").value;
     const name = document.querySelector("#title").value;
@@ -25,7 +26,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const description = document.querySelector("#description").value;
     const image = document.querySelector("#image").files[0];
 
-    const isValidCountry = await validateCountry(country);
+    const isValidCountry = validateCountry(country, countries);
     if (!validateNonEmpty(country)) {
       isCountryValid = false;
       showToaster("negative", "Country is required.");
@@ -56,10 +57,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (dateStart && dateEnd && !validateDates(dateStart, dateEnd)) {
       isDateValid = false;
-      showToaster(
-        "negative",
-        "Departure date should be after or the same as the arrival date."
-      );
+      showToaster("negative", "Departure date should be after or the same as the arrival date.");
       return;
     } else {
       isDateValid = true;
@@ -109,13 +107,7 @@ document.addEventListener("DOMContentLoaded", () => {
       image: base64,
     };
 
-    if (
-      isCountryValid &&
-      isNameValid &&
-      isDateValid &&
-      isLinkValid &&
-      isImageValid
-    ) {
+    if (isCountryValid && isNameValid && isDateValid && isLinkValid && isImageValid) {
       fetch("http://localhost:3000/destinations", {
         method: "POST",
         headers: {
