@@ -33,13 +33,6 @@ export function validateImage(file) {
 }
 
 // Validates if the country exists in the given list.
-export async function validateCountry(country) {
-  try {
-    const response = await fetch("../../utils/countries.json");
-    const countriesObj = await response.json();
-    return countriesObj.countries.includes(country);
-  } catch (error) {
-    console.error("Failed to fetch countries:", error);
-    return false;
-  }
+export function validateCountry(country, countries) {
+  return countries.includes(country);
 }

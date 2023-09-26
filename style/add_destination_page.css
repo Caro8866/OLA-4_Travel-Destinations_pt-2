@@ -1,42 +1,45 @@
 /* form styling */
 .add-destination-form {
-	margin: 2rem auto;
-	width: 100%;
+  margin: 2rem auto;
+  width: 100%;
 }
 
 .form-group {
-	margin-bottom: 1.5em;
+  margin-bottom: 1.5em;
 }
 .form-group label {
-	display: block;
-	margin-bottom: 0.5em;
+  display: block;
+  margin-bottom: 0.5em;
 }
 .form-group input,
 textarea {
-	padding: 0.812rem;
-	width: 100%;
-	border-radius: 5px;
-	border-top: 1px solid #ff8a50;
-	border-left: 1px solid #ff8a50;
-	background: #fff;
-	box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+  padding: 0.812rem;
+  width: 100%;
+  border-radius: 5px;
+  border-top: 1px solid #ff8a50;
+  border-left: 1px solid #ff8a50;
+  background: #fff;
+  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
 }
 
+#country {
+  width: 100%;
+}
 .buttons {
-	display: flex;
-	justify-content: space-between;
-	padding-inline: 2rem;
+  display: flex;
+  justify-content: space-between;
+  padding-inline: 2rem;
 }
 
 .note {
-	font-size: 0.8rem;
-	color: var(--neutral-200);
-	margin-top: 0.5rem;
+  font-size: 0.8rem;
+  color: var(--neutral-200);
+  margin-top: 0.5rem;
 }
 
 @media (max-width: 380px) {
-	.buttons {
-		flex-direction: column;
-		gap: 2rem;
-	}
+  .buttons {
+    flex-direction: column;
+    gap: 2rem;
+  }
 }
