@@ -27,14 +27,14 @@ const options = {
   allowedHeaders: ["X-Requested-With,content-type"],
 };
 
-// Getting destinations
+// GET destinations
 app.get("/destinations", cors(options), (req, res) => {
   Destination.find()
     .then((destinations) => res.json(destinations))
     .catch((err) => res.status(500).json({ error: "Error Fetching Destinations:", err }));
 });
 
-// creating a new destination
+// POST a new destination
 app.post("/destinations", cors(options), (req) => {
   if (validateNonEmpty(req.body.country) && validateDates(req.body.dateStart, req.body.dateEnd) && validateNonEmpty(req.body.name) && validateURL(req.body.link)) {
     const destination = new Destination({
@@ -55,7 +55,7 @@ app.post("/destinations", cors(options), (req) => {
   }
 });
 
-// update a destination
+// PUT a destination
 app.put("/destinations/:id", cors(options), (req, res) => {
   Destination.findByIdAndUpdate(
     req.params.id,
@@ -74,7 +74,7 @@ app.put("/destinations/:id", cors(options), (req, res) => {
     .catch((err) => res.status(500).json({ error: "Error Updating Destination:", err }));
 });
 
-// delete a destination
+// DELETE a destination
 app.delete("/destinations/:id", cors(options), (req, res) => {
   Destination.findByIdAndDelete(req.params.id)
     .then((destination) => res.json(destination))
