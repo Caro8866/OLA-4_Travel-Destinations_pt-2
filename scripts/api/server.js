@@ -29,7 +29,7 @@ app.get("/destinations", cors(options), (req, res) => {
     .then(() => {
       console.log("MongoDB Connected...");
       Destination.find()
-        .then((destinations) => res.json(destinations))
+        .then((destinations) => res.status(200).json(destinations))
         .catch((err) =>
           res.status(500).json({ error: "Error Fetching Destinations:", err })
         )
@@ -98,7 +98,7 @@ app.put("/destinations/:id", cors(options), (req, res) => {
         },
         { new: true }
       )
-        .then((destination) => res.json(destination))
+        .then((destination) => res.status(200).json(destination))
         .catch((err) =>
           res.status(500).json({ error: "Error Updating Destination:", err })
         )
@@ -116,7 +116,7 @@ app.delete("/destinations/:id", cors(options), (req, res) => {
     .then(() => {
       console.log("MongoDB Connected...");
       Destination.findByIdAndDelete(req.params.id)
-        .then((destination) => res.json(destination))
+        .then((destination) => res.status(200).json(destination))
         .catch((err) =>
           res.status(500).json({ error: "Error Deleting Destination:", err })
         )
