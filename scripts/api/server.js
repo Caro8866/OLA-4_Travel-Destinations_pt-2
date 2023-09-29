@@ -10,7 +10,6 @@ import {
 
 const app = express();
 const port = 3000;
-
 const uri = "mongodb://127.0.0.1:27017";
 
 // middleware
@@ -18,16 +17,13 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cors());
 
-// cors options
 const options = {
   origin: ["http://127.0.0.1:5500/add.html", "http://127.0.0.1:5500"],
   methods: ["GET", "POST"],
   allowedHeaders: ["X-Requested-With,content-type"],
 };
 
-// GET destinations
 app.get("/destinations", cors(options), (req, res) => {
-  // connecting to the database
   mongoose
     .connect(`${uri}/travelJournal`)
     .then(() => {
@@ -38,7 +34,6 @@ app.get("/destinations", cors(options), (req, res) => {
           res.status(500).json({ error: "Error Fetching Destinations:", err })
         )
         .finally(() => {
-          // closing db connection disregarding the status
           console.log("MongoDB Connection Closed");
           mongoose.disconnect();
         });
@@ -46,7 +41,6 @@ app.get("/destinations", cors(options), (req, res) => {
     .catch((error) => console.log(error));
 });
 
-// POST a new destination
 app.post("/destinations", cors(options), (req, res) => {
   mongoose
     .connect(`${uri}/travelJournal`)
@@ -86,7 +80,6 @@ app.post("/destinations", cors(options), (req, res) => {
     .catch((error) => console.log(error));
 });
 
-// PUT a destination
 app.put("/destinations/:id", cors(options), (req, res) => {
   mongoose
     .connect(`${uri}/travelJournal`)
@@ -117,7 +110,6 @@ app.put("/destinations/:id", cors(options), (req, res) => {
     .catch((error) => console.log(error));
 });
 
-// DELETE a destination
 app.delete("/destinations/:id", cors(options), (req, res) => {
   mongoose
     .connect(`${uri}/travelJournal`)
