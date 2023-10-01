@@ -3,10 +3,11 @@
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<title>Add New Destination - My Travel Journal</title>
+		<title>Log in - My Travel Journal</title>
 		<link rel="stylesheet" href="./style/main.css" />
-		<link rel="stylesheet" href="./style/add_destination_page.css" />
+		<link rel="stylesheet" href="./style/login.css" />
 	</head>
+
 	<body>
 		<header>
 			<div class="logo">
@@ -30,66 +31,80 @@
 				<a href="index.html" class="type-logo">My travel journal.</a>
 			</div>
 		</header>
-		<main>
-			<div class="wrapper">
-				<h1 class="headline">New destination</h1>
-				<form action="" class="add-destination-form">
-					<div class="form-group">
-						<label for="country">Country <span class="required">*</span></label>
-						<select name="country" id="country">
-							<option value="" selected>Select a Country</option>
-						</select>
-					</div>
-					<div class="form-group">
-						<label for="title">Title <span class="required">*</span></label>
-						<input
-							type="text"
-							name="title"
-							id="title"
-							placeholder="Title of your journey"
-						/>
-					</div>
-					<div class="form-group">
-						<label for="link">Link</label>
-						<input type="url" name="link" id="link" />
-					</div>
-					<div class="form-group">
-						<label for="arrival-date">Arrival Date</label>
-						<input type="date" name="arrival-date" id="arrival-date" />
-					</div>
-					<div class="form-group">
-						<label for="departure-date">Departure Date</label>
-						<input type="date" name="departure-date" id="departure-date" />
-					</div>
-					<div class="form-group">
-						<label for="description">Description</label>
-						<textarea name="description" id="description" rows="1"></textarea>
-					</div>
-					<div class="form-group">
-						<label for="image">Image</label>
-						<input type="file" name="image" id="image" />
-						<p class="note">Maximum file size is 2mb</p>
-					</div>
-					<div class="error-message"></div>
-					<div class="buttons">
-						<a href="index.html" class="btn-secondary"> Cancel </a>
-						<button type="submit" class="btn-primary">Save</button>
-					</div>
-				</form>
-			</div>
-		</main>
-		<section class="toaster-wrapper">
-			<!-- <p class="toast toast-positive">TOASTER MSG</p>
-      <p class="toast toast-negative">TOASTER MSG</p>
-      <p class="toast toast-positive">TOASTER MSG</p> -->
-		</section>
 
-		<template id="toaster-positive">
-			<p class="toast toast-positive">TOAST MSG</p>
+		<main>
+			<div id="toggle-form">
+				<button class="headline">Log In</button>
+				<button class="headline">Sign Up</button>
+			</div>
+
+			<div id="form_container"></div>
+		</main>
+
+		<template id="login_form">
+			<form action="">
+				<div class="form-group">
+					<label for="login-email"
+						>Email or username <span class="required">*</span></label
+					>
+					<input
+						type="text"
+						name="login-email"
+						id="login-email"
+						placeholder="email or username"
+					/>
+				</div>
+
+				<div class="form-group">
+					<label for="login-passsword"
+						>Password <span class="required">*</span></label
+					>
+					<input type="password" name="login-password" id="login-passsword" />
+				</div>
+
+				<button type="submit" class="btn-primary" id="login-btn">Log in</button>
+			</form>
 		</template>
-		<template id="toaster-negative">
-			<p class="toast toast-negative">TOAST MSG</p>
+
+		<template id="signup_form">
+			<form action="">
+				<div class="form-group">
+					<label for="signup-username"
+						>Username <span class="required">*</span></label
+					>
+					<input
+						type="text"
+						name="signup-username"
+						id="signup-username"
+						placeholder="username"
+					/>
+				</div>
+
+				<div class="form-group">
+					<label for="signup-email"
+						>Email <span class="required">*</span></label
+					>
+					<input
+						type="email"
+						name="signup-email"
+						id="signup-email"
+						placeholder="example@example.com"
+					/>
+				</div>
+
+				<div class="form-group">
+					<label for="signup-passsword"
+						>Password <span class="required">*</span></label
+					>
+					<input type="password" name="signup-password" id="signup-passsword" />
+				</div>
+
+				<button type="submit" class="btn-primary" id="signup-btn">
+					Sign up
+				</button>
+			</form>
 		</template>
-		<script type="module" src="scripts/add.js"></script>
+
+		<script src="scripts/authForms.js"></script>
 	</body>
 </html>
