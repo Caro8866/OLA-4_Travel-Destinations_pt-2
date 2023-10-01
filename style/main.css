@@ -21,6 +21,9 @@
 
 header {
 	background-color: var(--orange-100);
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
 }
 
 .logo {
@@ -30,6 +33,21 @@ header {
 	align-items: center;
 	gap: 12px;
 	width: fit-content;
+}
+
+.login-header {
+	margin-right: 12px;
+	display: flex;
+	gap: 12px;
+	align-items: center;
+	text-decoration: none;
+}
+
+.login-header span {
+	color: var(--neutral-100);
+	font-family: Inter;
+	font-size: 18px;
+	font-weight: 500;
 }
 
 .type-logo {
