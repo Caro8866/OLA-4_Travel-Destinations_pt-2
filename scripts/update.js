@@ -16,7 +16,6 @@ document.addEventListener("DOMContentLoaded", () => {
   const urlParams = new URLSearchParams(window.location.search);
   const id = urlParams.get("id");
 
-  // Populate form data
   fetch(`http://localhost:3000/destinations/${id}`)
     .then((response) => response.json())
     .then((data) => {
@@ -100,14 +99,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (image) {
       try {
-        console.log(image.size, "before compression");
-        // image compression
         const compressedImage = await compressImage(image);
-        console.log(compressedImage.size, "after compression");
-        // Convert compressed image to base64
         base64 = await imageToBase64(compressedImage);
-        console.log(base64, "after compression");
-
         isImageValid = true;
       } catch (error) {
         console.error("Error converting image to Base64:", error);
@@ -135,30 +128,19 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 function populateForm(destination) {
-  console.log(destination, "destination");
-
-  // Setting the selected option in the 'country' select box
-
   const countrySelect = document.querySelector("#country");
-  console.log("Available country options:", countrySelect.options);
-  console.log("Trying to set to:", destination.country);
   for (const option of countrySelect.options) {
     if (option.value === destination.country) {
       option.selected = true;
       break;
     }
   }
-
   document.querySelector("#title").value = destination.name;
   document.querySelector("#link").value = destination.link;
-
-  // Assuming dateStart and dateEnd are in ISO string format and need to be formatted to YYYY-MM-DD
   document.querySelector("#arrival-date").value = new Date(destination.dateStart).toISOString().split("T")[0];
   document.querySelector("#departure-date").value = new Date(destination.dateEnd).toISOString().split("T")[0];
 
   document.querySelector("#description").value = destination.description;
-  console.log(destination.image);
-
   document.querySelector("#current-image").src = destination.image;
 }
 
