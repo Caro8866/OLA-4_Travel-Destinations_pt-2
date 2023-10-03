@@ -1,7 +1,7 @@
 window.addEventListener("load", fetchData);
 import { deleteModal } from "./utils/delete_modal.js";
 
-function fetchData() {
+export function fetchData() {
   fetch("http://localhost:3000/destinations", {
     method: "GET",
     headers: {
@@ -83,7 +83,7 @@ function displayData(destination) {
 
   editIcon.href = `/update.html?id=${destination._id}`;
   deleteIcon.addEventListener("click", () => {
-    deleteModal(destination._id, destination.name);
+    deleteModal(destination._id, destination.name, "destinations");
   });
 
   list.appendChild(clone);

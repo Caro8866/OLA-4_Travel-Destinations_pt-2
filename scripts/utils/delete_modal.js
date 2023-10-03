@@ -1,4 +1,7 @@
-export function deleteModal(id, name) {
+import { showToaster } from "./toaster.js";
+import { fetchData } from "../readFormData.js";
+
+export function deleteModal(id, name, location) {
   const modalWrapper = document.querySelector(".modal-wrapper");
   const modalWindow = document.querySelector(".modal-window");
   const deleteButton = document.querySelector(".modal-window .btn-primary");
@@ -23,6 +26,11 @@ export function deleteModal(id, name) {
       .then((response) => response.json())
       .then((resJSON) => {
         showToaster("positive", `Entry deleted successfully`);
+        modalWrapper.classList.add("hidden");
+        if (location === "destinations") {
+          document.querySelector(".destinations_list").innerHTML = "";
+          fetchData();
+        }
       })
       .catch((error) => {
         console.error("Error:", error);
