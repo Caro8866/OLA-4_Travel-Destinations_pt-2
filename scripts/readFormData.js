@@ -1,4 +1,3 @@
-// Function to retrieve and display data from local storage
 window.addEventListener("load", fetchData);
 
 function fetchData() {
@@ -51,6 +50,8 @@ function displayData(destination) {
   const cardDescription = clone.querySelector(".card_description");
   const cardImage = clone.querySelector(".card_image");
   const cardDate = clone.querySelector(".card_date");
+  const editIcon = clone.querySelector(".edit_destination");
+  const deleteIcon = clone.querySelector(".delete_destination");
 
   cardCountry.textContent = destination.country;
   cardTitle.textContent = destination.name;
@@ -78,6 +79,7 @@ function displayData(destination) {
   destination.link ? (cardLink.href = destination.link) : cardLink.remove();
 
   destination.image && (cardImage.src = destination.image);
+  editIcon.href = `/update.html?id=${destination._id}`;
 
   list.appendChild(clone);
 }
