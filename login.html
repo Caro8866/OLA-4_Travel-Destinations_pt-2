@@ -3,10 +3,11 @@
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<title>Destinations list - My Travel Journal</title>
+		<title>Log in - My Travel Journal</title>
 		<link rel="stylesheet" href="./style/main.css" />
-		<link rel="stylesheet" href="./style/destinations_page.css" />
+		<link rel="stylesheet" href="./style/login.css" />
 	</head>
+
 	<body>
 		<header>
 			<div class="logo">
@@ -46,85 +47,80 @@
 				<span>Log in</span>
 			</a>
 		</header>
+
 		<main>
-			<div class="wrapper">
-				<h1 class="headline">Destinations</h1>
+			<div id="toggle-form">
+				<button class="headline">Log In</button>
+				<button class="headline">Sign Up</button>
 			</div>
 
-			<div class="destinations_list"></div>
-
-			<a href="add.html" class="btn-primary btn-add">
-				<svg
-					width="25"
-					height="24"
-					viewBox="0 0 25 24"
-					fill="none"
-					xmlns="http://www.w3.org/2000/svg"
-				>
-					<path
-						d="M12.5 22C18.0228 22 22.5 17.5228 22.5 12C22.5 6.47715 18.0228 2 12.5 2C6.97715 2 2.5 6.47715 2.5 12C2.5 17.5228 6.97715 22 12.5 22Z"
-						stroke="#F5F5F5"
-						stroke-width="2"
-						stroke-linecap="round"
-						stroke-linejoin="round"
-					/>
-					<path
-						d="M12.5 8V16"
-						stroke="#F5F5F5"
-						stroke-width="2"
-						stroke-linecap="round"
-						stroke-linejoin="round"
-					/>
-					<path
-						d="M8.5 12H16.5"
-						stroke="#F5F5F5"
-						stroke-width="2"
-						stroke-linecap="round"
-						stroke-linejoin="round"
-					/>
-				</svg>
-				Add entry
-			</a>
+			<div id="form_container"></div>
 		</main>
-		<!-- DESTINATION TEMPLATE -->
-		<template id="destination_card_template">
-			<div class="container_card">
-				<div class="destination_card">
-					<img class="card_image" src="placeholder.webp" alt="" />
-					<div>
-						<div>
-							<svg
-								width="8"
-								height="10"
-								viewBox="0 0 8 10"
-								fill="none"
-								xmlns="http://www.w3.org/2000/svg"
-							>
-								<path
-									fill-rule="evenodd"
-									clip-rule="evenodd"
-									d="M4.07866 5.25002C3.15532 5.25002 2.40837 4.50221 2.40837 3.57965C2.40837 2.65757 3.15532 1.90911 4.07866 1.90911C5.00167 1.90911 5.74927 2.65757 5.74927 3.57965C5.74927 4.50221 5.00167 5.25002 4.07866 5.25002ZM3.98394 0C2.04227 0 0.5 1.63678 0.5 3.65569C0.5 6.40791 3.45078 9.25191 3.45078 9.25191C3.84777 9.62783 4.09437 9.65847 4.51646 9.25191C4.51646 9.25191 7.5 6.40791 7.5 3.65569C7.5 1.63678 5.92544 0 3.98394 0Z"
-									fill="#FF5722"
-								/>
-							</svg>
-							<span class="card_country">No country</span>
-							<a class="card_link" href="" target="_blank"
-								>View on Google Maps</a
-							>
-						</div>
-						<h3 class="card_title"></h3>
 
-						<p class="card_date">
-							<span class="card_arrival_date"></span>
-							<span class="card_departure_date"></span>
-						</p>
-						<p class="card_description"></p>
-					</div>
+		<template id="login_form">
+			<form action="">
+				<div class="form-group">
+					<label for="login-email"
+						>Email or username <span class="required">*</span></label
+					>
+					<input
+						type="text"
+						name="login-email"
+						id="login-email"
+						placeholder="email or username"
+					/>
 				</div>
 
-				<hr class="divider" />
-			</div>
+				<div class="form-group">
+					<label for="login-passsword"
+						>Password <span class="required">*</span></label
+					>
+					<input type="password" name="login-password" id="login-passsword" />
+				</div>
+
+				<button type="submit" class="btn-primary" id="login-btn">Log in</button>
+			</form>
 		</template>
-		<script src="scripts/readFormData.js"></script>
+
+		<template id="signup_form">
+			<form action="">
+				<div class="form-group">
+					<label for="signup-username"
+						>Username <span class="required">*</span></label
+					>
+					<input
+						type="text"
+						name="signup-username"
+						id="signup-username"
+						placeholder="username"
+					/>
+				</div>
+
+				<div class="form-group">
+					<label for="signup-email"
+						>Email <span class="required">*</span></label
+					>
+					<input
+						type="email"
+						name="signup-email"
+						id="signup-email"
+						placeholder="example@example.com"
+					/>
+				</div>
+
+				<div class="form-group">
+					<label for="signup-passsword"
+						>Password <span class="required">*</span></label
+					>
+					<input type="password" name="signup-password" id="signup-passsword" />
+				</div>
+
+				<button type="submit" class="btn-primary" id="signup-btn">
+					Sign up
+				</button>
+			</form>
+		</template>
+
+		<script src="scripts/authForms.js"></script>
 	</body>
 </html>
