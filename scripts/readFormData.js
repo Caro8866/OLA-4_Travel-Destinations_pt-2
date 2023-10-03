@@ -1,4 +1,5 @@
 window.addEventListener("load", fetchData);
+import { deleteModal } from "./utils/delete_modal.js";
 
 function fetchData() {
   fetch("http://localhost:3000/destinations", {
@@ -79,7 +80,11 @@ function displayData(destination) {
   destination.link ? (cardLink.href = destination.link) : cardLink.remove();
 
   destination.image && (cardImage.src = destination.image);
+
   editIcon.href = `/update.html?id=${destination._id}`;
+  deleteIcon.addEventListener("click", () => {
+    deleteModal(destination._id, destination.name);
+  });
 
   list.appendChild(clone);
 }

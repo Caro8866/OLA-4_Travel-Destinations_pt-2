@@ -61,6 +61,7 @@ main {
 .destination_actions img {
   opacity: 0.4;
   transition: 0.5s ease;
+  cursor: pointer;
 }
 
 .destination_actions img:hover {

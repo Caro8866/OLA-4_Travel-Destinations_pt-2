@@ -30,6 +30,16 @@
         <a href="index.html" class="type-logo">My travel journal.</a>
       </div>
     </header>
+    <section class="modal-wrapper hidden">
+      <div class="modal-window">
+        <h2>Delete destination</h2>
+        <p>Are you sure you want to remove <a href="update.html">XYZ</a>?</p>
+        <div>
+          <button class="btn-secondary">Cancel</button>
+          <button class="btn-primary">Delete</button>
+        </div>
+      </div>
+    </section>
     <main>
       <div class="wrapper">
         <h1>Destinations</h1>
@@ -78,9 +88,7 @@
             <a href="/update.html" class="edit_destination"
               ><img src="./img/edit_icon.svg"
             /></a>
-            <a href="" class="delete_destination"
-              ><img src="./img/delete_icon.svg"
-            /></a>
+            <img src="./img/delete_icon.svg" class="delete_destination" />
           </section>
           <img class="card_image" src="placeholder.webp" alt="" />
           <div>
@@ -117,6 +125,7 @@
         <hr class="divider" />
       </div>
     </template>
-    <script src="scripts/readFormData.js"></script>
+    <script src="./scripts/readFormData.js" type="module"></script>
+    <!-- <script src="./scripts/utils/delete_modal.js" type="module"></script> -->
   </body>
 </html>
