@@ -2,11 +2,14 @@ import mongoose from "mongoose";
 import express from "express";
 import cors from "cors";
 import Destination from "../../schemas/traveldestination.js";
+import User from "../../schemas/UserSchema.js";
 import { validateNonEmpty, validateURL, validateDates } from "../utils/validate_helpers.js";
+import bcrypt from "bcrypt";
 
 const app = express();
 const port = 3000;
 const uri = "mongodb://127.0.0.1:27017";
+const saltRounds = 10;
 
 // middleware
 app.use(express.json());
@@ -128,6 +131,30 @@ app.delete("/destinations/:id", cors(options), (req, res) => {
     })
     .catch((error) => console.log(error));
 });
+
+app.post("/register",  function (req, res, next) {
+  mongoose
+    .connect(`${uri}/travelJournal`)
+    .then(async () => {
+      console.log("MongoDB Connected...");
+      const hashedPassword = await bcrypt.hash(req.body.password, saltRounds);
+
+      const newUser = new User({
+        username: req.body.username,
+        password: hashedPassword
+      });
+    
+      newUser.save().then((user) => {
+        res.json({ success: true, user: user });
+      })
+      .catch((err) => res.json({ success: false, msg: err }))
+      .finally(() => {
+        console.log("MongoDB Connection Closed");
+        mongoose.disconnect();
+      });
+    })
+});
+
 
 app.listen(port, () => {
   console.log(`Server is running at: http:localhost:${port}`);
