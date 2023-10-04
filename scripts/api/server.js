@@ -5,11 +5,14 @@ import Destination from "../../schemas/traveldestination.js";
 import User from "../../schemas/UserSchema.js";
 import { validateNonEmpty, validateURL, validateDates } from "../utils/validate_helpers.js";
 import bcrypt from "bcrypt";
+import jsonwebtoken from "jsonwebtoken";
+import dotenv from "dotenv";
 
 const app = express();
 const port = 3000;
 const uri = "mongodb://127.0.0.1:27017";
 const saltRounds = 10;
+dotenv.config();
 
 // middleware
 app.use(express.json());
@@ -132,7 +135,39 @@ app.delete("/destinations/:id", cors(options), (req, res) => {
     .catch((error) => console.log(error));
 });
 
-app.post("/register",  function (req, res, next) {
+app.post("/auth/login",  function (req, res, next) {
+  mongoose
+    .connect(`${uri}/travelJournal`)
+    .then(() => {
+      console.log("MongoDB Connected...");
+      User.findOne({ username: req.body.username })
+        .then(async (user) => {
+          if (!user) {
+            res.status(401).json({ success: false, msg: "could not find user" });
+          }
+        
+          const isPassValid = await bcrypt.compare(req.body.password, user.password);
+          if (isPassValid) {
+            const tokenObject = jsonwebtoken.sign({_id: user._id}, process.env.JWT_SECRET);          
+            res.status(200).json({
+              success: true,
+              token: tokenObject,
+            });
+          } else {
+            res.status(401).json({ success: false, msg: "you entered the wrong password" });
+          }
+        })
+      .catch((err) => {
+        next(err);
+      })
+      .finally(() => {
+        console.log("MongoDB Connection Closed");
+        mongoose.disconnect();
+      });
+    })
+});
+
+app.post("/auth/signup",  function (req, res) {
   mongoose
     .connect(`${uri}/travelJournal`)
     .then(async () => {
