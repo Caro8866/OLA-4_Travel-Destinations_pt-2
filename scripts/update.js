@@ -7,6 +7,8 @@ import {
 } from "./utils/validate_helpers.js";
 import { imageToBase64, compressImage } from "./utils/image_helpers.js";
 import countries from "../utils/countries.js";
+import { showToaster } from "./utils/toaster.js";
+import { deleteModal } from "./utils/delete_modal.js";
 
 function fetchAndPopulate(id) {
   fetch(`http://localhost:3000/destinations/${id}`)
@@ -169,6 +171,12 @@ function populateForm(destination) {
 
   document.querySelector("#description").value = destination.description;
   document.querySelector("#current-image").src = destination.image;
+
+  document
+    .querySelector(".form_header span")
+    .addEventListener("click", () =>
+      deleteModal(destination._id, destination.name, "destination")
+    );
 }
 
 function updateDestination(id, updatedData) {

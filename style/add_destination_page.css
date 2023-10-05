@@ -37,6 +37,32 @@ textarea {
   margin-top: 0.5rem;
 }
 
+.form_header {
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.form_header span {
+  position: absolute;
+  right: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-size: 0.9rem;
+  opacity: 0.6;
+  cursor: pointer;
+}
+.form_header span:hover {
+  opacity: 0.8;
+}
+
+.form_header span img {
+  width: 24px;
+}
+
 @media (max-width: 380px) {
   .buttons {
     flex-direction: column;

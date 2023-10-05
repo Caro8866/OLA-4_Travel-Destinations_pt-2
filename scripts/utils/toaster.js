@@ -14,3 +14,15 @@ export function showToaster(type, message) {
     parent.querySelector("p:last-of-type").remove();
   }, 4800);
 }
+
+// REQUIRED in HTML
+// <section class="toaster-wrapper">
+
+// </section>
+
+// <template id="toaster-positive">
+// <p class="toast toast-positive">TOAST MSG</p>
+// </template>
+// <template id="toaster-negative">
+// <p class="toast toast-negative">TOAST MSG</p>
+// </template>

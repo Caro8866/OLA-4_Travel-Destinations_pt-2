@@ -7,8 +7,6 @@ export function deleteModal(id, name, location) {
   const deleteButton = document.querySelector(".modal-window .btn-primary");
   const cancelButton = document.querySelector(".modal-window .btn-secondary");
 
-  console.log(id);
-
   modalWrapper.classList.remove("hidden");
   cancelButton.addEventListener("click", () => {
     modalWrapper.classList.add("hidden");
@@ -30,6 +28,8 @@ export function deleteModal(id, name, location) {
         if (location === "destinations") {
           document.querySelector(".destinations_list").innerHTML = "";
           fetchData();
+        } else if (location === "destination") {
+          window.location.href = "/";
         }
       })
       .catch((error) => {
