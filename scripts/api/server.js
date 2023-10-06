@@ -189,7 +189,7 @@ app.post("/auth/login",  function (req, res, next) {
       })
       .finally(() => {
         console.log("MongoDB Connection Closed");
-        // mongoose.disconnect();
+        mongoose.disconnect();
       });
     })
 });
