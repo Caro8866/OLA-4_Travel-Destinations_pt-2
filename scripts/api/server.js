@@ -7,14 +7,41 @@ import { validateNonEmpty, validateURL, validateDates } from "../utils/validate_
 import bcrypt from "bcrypt";
 import jsonwebtoken from "jsonwebtoken";
 import dotenv from "dotenv";
+import passport from "passport";
+import { Strategy as JwtStrategy, ExtractJwt } from "passport-jwt";
 
+dotenv.config();
 const app = express();
 const port = 3000;
 const uri = "mongodb://127.0.0.1:27017";
 const saltRounds = 10;
-dotenv.config();
+const passportOptions = {
+  jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
+  secretOrKey: process.env.JWT_SECRET
+};
 
 // middleware
+passport.use(new JwtStrategy(passportOptions, async (jwt_payload, done) => {
+  mongoose
+  .connect(`${uri}/travelJournal`)
+  .then(async () => {
+    console.log("MongoDB Connected...");
+
+    const user = await User.findOne({ id: jwt_payload.sub });
+  
+    if (user) {
+        return done(null, user);
+    } else {
+        return done(null, false);
+    }
+    })
+  .catch((error) => done(error, false))
+  .finally(() => {
+    console.log("MongoDB Connection Closed");
+    mongoose.disconnect();
+  });
+}
+));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cors());
@@ -162,7 +189,7 @@ app.post("/auth/login",  function (req, res, next) {
       })
       .finally(() => {
         console.log("MongoDB Connection Closed");
-        mongoose.disconnect();
+        // mongoose.disconnect();
       });
     })
 });
@@ -190,6 +217,17 @@ app.post("/auth/signup",  function (req, res) {
     })
 });
 
+app.get("/auth/protected", passport.authenticate("jwt", { session: false }), function (req, res, next) {
+  mongoose
+    .connect(`${uri}/travelJournal`)
+    .then(() => {
+        res.status(200).json({
+          success: true,
+          msg: "You are successfully authenticated to this route!",
+        });
+    })
+}
+);
 
 app.listen(port, () => {
   console.log(`Server is running at: http:localhost:${port}`);
