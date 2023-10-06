@@ -1,6 +1,6 @@
 import { deleteModal } from "./utils/delete_modal.js";
 
-window.addEventListener("DOMContentLoaded", () => fetchData());
+document.addEventListener("DOMContentLoaded", () => fetchData());
 export function fetchData() {
   fetch("http://localhost:3000/destinations", {
     method: "GET",

@@ -1,5 +1,4 @@
 import { showToaster } from "./toaster.js";
-import { fetchData } from "../readFormData.js";
 
 export function deleteModal(id, name, location) {
   const modalWrapper = document.querySelector(".modal-wrapper");
@@ -27,7 +26,25 @@ export function deleteModal(id, name, location) {
         modalWrapper.classList.add("hidden");
         if (location === "destinations") {
           document.querySelector(".destinations_list").innerHTML = "";
-          fetchData();
+          fetch("http://localhost:3000/destinations", {
+            method: "GET",
+            headers: {
+              "Content-type": "application/json",
+            },
+          })
+            .then((res) => res.json())
+            .then((resJSON) => {
+              if (resJSON.length) {
+                resJSON.forEach((el) => displayData(el));
+              } else {
+                const list = document.querySelector(".destinations_list");
+                const addDestinationsMessage = document.createElement("p");
+                addDestinationsMessage.textContent =
+                  "You have no destinations in you travel journal.";
+                addDestinationsMessage.classList.add("no_destinations");
+                list.appendChild(addDestinationsMessage);
+              }
+            });
         } else if (location === "destination") {
           window.location.href = "/";
         }

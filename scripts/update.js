@@ -2,7 +2,6 @@ import {
   validateNonEmpty,
   validateURL,
   validateDates,
-  validateImage,
   validateCountry,
 } from "./utils/validate_helpers.js";
 import { imageToBase64, compressImage } from "./utils/image_helpers.js";
