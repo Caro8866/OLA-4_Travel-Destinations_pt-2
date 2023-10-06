@@ -14,7 +14,6 @@ dotenv.config();
 const app = express();
 const port = 3000;
 const uri = "mongodb://127.0.0.1:27017";
-const saltRounds = 10;
 const passportOptions = {
   jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
   secretOrKey: process.env.JWT_SECRET
@@ -162,17 +161,13 @@ app.delete("/destinations/:id", cors(options), (req, res) => {
     .catch((error) => console.log(error));
 });
 
-app.post("/auth/login",  function (req, res, next) {
+app.post("/auth/login", function (req, res, next) {
   mongoose
     .connect(`${uri}/travelJournal`)
     .then(() => {
       console.log("MongoDB Connected...");
       User.findOne({ username: req.body.username })
         .then(async (user) => {
-          if (!user) {
-            res.status(401).json({ success: false, msg: "could not find user" });
-          }
-        
           const isPassValid = await bcrypt.compare(req.body.password, user.password);
           if (isPassValid) {
             const tokenObject = jsonwebtoken.sign({_id: user._id}, process.env.JWT_SECRET);          
@@ -181,11 +176,12 @@ app.post("/auth/login",  function (req, res, next) {
               token: tokenObject,
             });
           } else {
-            res.status(401).json({ success: false, msg: "you entered the wrong password" });
+            res.status(401).json({ success: false, msg: "Invalid login" });
+            return;
           }
         })
       .catch((err) => {
-        next(err);
+        res.status(401).json({ success: false, msg: "Invalid login" });
       })
       .finally(() => {
         console.log("MongoDB Connection Closed");
@@ -199,11 +195,10 @@ app.post("/auth/signup",  function (req, res) {
     .connect(`${uri}/travelJournal`)
     .then(async () => {
       console.log("MongoDB Connected...");
-      const hashedPassword = await bcrypt.hash(req.body.password, saltRounds);
 
       const newUser = new User({
         username: req.body.username,
-        password: hashedPassword
+        password: req.body.password
       });
     
       newUser.save().then((user) => {
