@@ -2,11 +2,12 @@ import {
   validateNonEmpty,
   validateURL,
   validateDates,
-  validateImage,
   validateCountry,
 } from "./utils/validate_helpers.js";
 import { imageToBase64, compressImage } from "./utils/image_helpers.js";
 import countries from "../utils/countries.js";
+import { showToaster } from "./utils/toaster.js";
+import { deleteModal } from "./utils/delete_modal.js";
 
 function fetchAndPopulate(id) {
   fetch(`http://localhost:3000/destinations/${id}`)
@@ -169,6 +170,12 @@ function populateForm(destination) {
 
   document.querySelector("#description").value = destination.description;
   document.querySelector("#current-image").src = destination.image;
+
+  document
+    .querySelector(".form_header span")
+    .addEventListener("click", () =>
+      deleteModal(destination._id, destination.name, "destination")
+    );
 }
 
 function updateDestination(id, updatedData) {
@@ -188,21 +195,4 @@ function updateDestination(id, updatedData) {
       console.error("Error:", error);
       showToaster("negative", "Something went wrong, try again.");
     });
-}
-
-function showToaster(type, message) {
-  const parent = document.querySelector(".toaster-wrapper");
-  const template = document.querySelector(`#toaster-${type}`);
-  const clone = document.importNode(template.content, true);
-  clone.querySelector("p").textContent = `${message}`;
-  parent.appendChild(clone);
-  setTimeout(() => {
-    parent.querySelector("p:last-of-type").classList.add("show-toast");
-  }, 10);
-  setTimeout(() => {
-    parent.querySelector("p:last-of-type").classList.remove("show-toast");
-  }, 4000);
-  setTimeout(() => {
-    parent.querySelector("p:last-of-type").remove();
-  }, 4800);
 }

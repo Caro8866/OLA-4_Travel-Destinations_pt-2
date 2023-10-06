@@ -1,4 +1,11 @@
-import { validateNonEmpty, validateURL, validateDates, validateImage, validateCountry } from "./utils/validate_helpers.js";
+import {
+  validateNonEmpty,
+  validateURL,
+  validateDates,
+  validateImage,
+  validateCountry,
+} from "./utils/validate_helpers.js";
+import { showToaster } from "./utils/toaster.js";
 import { imageToBase64, compressImage } from "./utils/image_helpers.js";
 import countries from "../utils/countries.js";
 
@@ -57,7 +64,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (dateStart && dateEnd && !validateDates(dateStart, dateEnd)) {
       isDateValid = false;
-      showToaster("negative", "Departure date should be after or the same as the arrival date.");
+      showToaster(
+        "negative",
+        "Departure date should be after or the same as the arrival date."
+      );
       return;
     } else {
       isDateValid = true;
@@ -107,7 +117,13 @@ document.addEventListener("DOMContentLoaded", () => {
       image: base64,
     };
 
-    if (isCountryValid && isNameValid && isDateValid && isLinkValid && isImageValid) {
+    if (
+      isCountryValid &&
+      isNameValid &&
+      isDateValid &&
+      isLinkValid &&
+      isImageValid
+    ) {
       fetch("http://localhost:3000/destinations", {
         method: "POST",
         headers: {
@@ -128,20 +144,3 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 });
-
-function showToaster(type, message) {
-  const parent = document.querySelector(".toaster-wrapper");
-  const template = document.querySelector(`#toaster-${type}`);
-  const clone = document.importNode(template.content, true);
-  clone.querySelector("p").textContent = `${message}`;
-  parent.appendChild(clone);
-  setTimeout(() => {
-    parent.querySelector("p:last-of-type").classList.add("show-toast");
-  }, 10);
-  setTimeout(() => {
-    parent.querySelector("p:last-of-type").classList.remove("show-toast");
-  }, 4000);
-  setTimeout(() => {
-    parent.querySelector("p:last-of-type").remove();
-  }, 4800);
-}
