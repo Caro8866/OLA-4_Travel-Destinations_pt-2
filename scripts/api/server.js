@@ -168,8 +168,7 @@ app.post("/auth/login", function (req, res, next) {
       console.log("MongoDB Connected...");
       User.findOne({ username: req.body.username })
         .then(async (user) => {
-          const isPassValid = await bcrypt.compare(req.body.password, user.password);
-          if (isPassValid) {
+          if (await user.isValidPassword(req.body.password)) {
             const tokenObject = jsonwebtoken.sign({_id: user._id}, process.env.JWT_SECRET);          
             res.status(200).json({
               success: true,
