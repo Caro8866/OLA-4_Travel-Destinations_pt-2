@@ -187,6 +187,7 @@ app.delete("/destinations/:id", cors(options), (req, res) => {
 app.post("/auth/login", cors(options), (req, res, next) => {
   mongoose.connect(`${uri}/travelJournal`).then(() => {
     console.log("MongoDB Connected...");
+
     if (req.body.cred.includes("@")) {
       User.findOne({ email: req.body.cred })
         .then(async (user) => {
