@@ -211,17 +211,19 @@ app.post("/auth/signup",  function (req, res) {
     })
 });
 
-app.get("/auth/protected", passport.authenticate("jwt", { session: false }), function (req, res, next) {
-  mongoose
-    .connect(`${uri}/travelJournal`)
-    .then(() => {
-        res.status(200).json({
-          success: true,
-          msg: "You are successfully authenticated to this route!",
-        });
-    })
-}
-);
+
+// only for testing purposes can be removed later
+// app.get("/auth/protected", passport.authenticate("jwt", { session: false }), function (req, res, next) {
+//   mongoose
+//     .connect(`${uri}/travelJournal`)
+//     .then(() => {
+//         res.status(200).json({
+//           success: true,
+//           msg: "You are successfully authenticated to this route!",
+//         });
+//     })
+// }
+// );
 
 app.listen(port, () => {
   console.log(`Server is running at: http:localhost:${port}`);
