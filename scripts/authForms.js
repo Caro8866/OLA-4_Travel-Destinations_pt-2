@@ -1,3 +1,5 @@
+import { showToaster } from "./utils/toaster.js";
+
 document.addEventListener("DOMContentLoaded", function () {
   const loginButton = document.querySelector(".headline:nth-child(1)");
   const signupButton = document.querySelector(".headline:nth-child(2)");
@@ -15,7 +17,44 @@ document.addEventListener("DOMContentLoaded", function () {
       .getElementById("login-btn")
       .addEventListener("click", function (event) {
         event.preventDefault();
-        form.reset();
+
+        const loginCred = form.querySelector("#login-email").value;
+        const password = form.querySelector("#login-password").value;
+
+        let processedInput;
+        if (loginCred.length && password.length) {
+          processedInput = {
+            cred: loginCred,
+            password: password,
+          };
+          console.log(processedInput);
+        } else {
+          processedInput = null;
+        }
+
+        if (processedInput) {
+          fetch("http://localhost:3000/auth/login", {
+            method: "POST",
+            headers: {
+              "Content-type": "application/json",
+            },
+            body: JSON.stringify(processedInput),
+          })
+            .then((res) => {
+              console.log(res.status);
+              if (res.status === 401) {
+                showToaster("negative", "Incorrect credentials");
+              } else {
+                showToaster("positive", "Logged in!");
+                form.reset();
+              }
+            })
+            .catch((err) => {
+              console.log(err);
+            });
+        } else {
+          showToaster("negative", "Fill out the login credentials");
+        }
       });
 
     formContainer.appendChild(loginFormClone);
@@ -40,7 +79,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
         const email = form.querySelector("#signup-email").value;
         const username = form.querySelector("#signup-username").value;
-        const password = form.querySelector("#signup-passsword").value;
+        const password = form.querySelector("#signup-password").value;
         let processedInput;
 
         if (username.length && email.length && password.length) {
@@ -62,12 +101,13 @@ document.addEventListener("DOMContentLoaded", function () {
             body: JSON.stringify(processedInput),
           }).then((res) => {
             console.log(res);
+            showToaster("positive", "Account created!");
+            form.reset();
           });
         } else {
           console.log("FILL OUT THE FORM");
+          showToaster("negative", "Fill out the form fields");
         }
-
-        form.reset();
       });
 
     formContainer.appendChild(signupFormClone);

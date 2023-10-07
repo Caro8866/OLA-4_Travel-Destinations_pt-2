@@ -51,9 +51,14 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cors());
 
 const options = {
-  origin: ["http://127.0.0.1:5500/add.html", "http://127.0.0.1:5500"],
+  origin: [
+    "http://127.0.0.1:5500/add.html",
+    "http://127.0.0.1:5500/login.html",
+    "http://127.0.0.1:5500/login",
+    "http://127.0.0.1:5500",
+  ],
   methods: ["GET", "POST", "PUT", "DELETE"],
-  allowedHeaders: ["X-Requested-With,content-type"],
+  allowedHeaders: ["X-Requested-With, Content-type"],
 };
 
 app.get("/destinations", cors(options), (req, res) => {
@@ -179,36 +184,62 @@ app.delete("/destinations/:id", cors(options), (req, res) => {
     .catch((error) => console.log(error));
 });
 
-app.post("/auth/login", function (req, res, next) {
+app.post("/auth/login", cors(options), (req, res, next) => {
   mongoose.connect(`${uri}/travelJournal`).then(() => {
     console.log("MongoDB Connected...");
-    User.findOne({ username: req.body.username })
-      .then(async (user) => {
-        if (await user.isValidPassword(req.body.password)) {
-          const tokenObject = jsonwebtoken.sign(
-            { _id: user._id },
-            process.env.JWT_SECRET
-          );
-          res.status(200).json({
-            success: true,
-            token: tokenObject,
-          });
-        } else {
+    if (req.body.cred.includes("@")) {
+      User.findOne({ email: req.body.cred })
+        .then(async (user) => {
+          if (await user.isValidPassword(req.body.password)) {
+            const tokenObject = jsonwebtoken.sign(
+              { _id: user._id },
+              process.env.JWT_SECRET
+            );
+            res.status(200).json({
+              success: true,
+              token: tokenObject,
+            });
+          } else {
+            res.status(401).json({ success: false, msg: "Invalid login" });
+            return;
+          }
+        })
+        .catch((err) => {
           res.status(401).json({ success: false, msg: "Invalid login" });
-          return;
-        }
-      })
-      .catch((err) => {
-        res.status(401).json({ success: false, msg: "Invalid login" });
-      })
-      .finally(() => {
-        console.log("MongoDB Connection Closed");
-        mongoose.disconnect();
-      });
+        })
+        .finally(() => {
+          console.log("MongoDB Connection Closed");
+          mongoose.disconnect();
+        });
+    } else {
+      User.findOne({ username: req.body.cred })
+        .then(async (user) => {
+          if (await user.isValidPassword(req.body.password)) {
+            const tokenObject = jsonwebtoken.sign(
+              { _id: user._id },
+              process.env.JWT_SECRET
+            );
+            res.status(200).json({
+              success: true,
+              token: tokenObject,
+            });
+          } else {
+            res.status(401).json({ success: false, msg: "Invalid login" });
+            return;
+          }
+        })
+        .catch((err) => {
+          res.status(401).json({ success: false, msg: "Invalid login" });
+        })
+        .finally(() => {
+          console.log("MongoDB Connection Closed");
+          mongoose.disconnect();
+        });
+    }
   });
 });
 
-app.post("/auth/signup", function (req, res) {
+app.post("/auth/signup", cors(options), (req, res) => {
   mongoose.connect(`${uri}/travelJournal`).then(async () => {
     console.log("MongoDB Connected...");
 

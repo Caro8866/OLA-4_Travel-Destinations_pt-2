@@ -78,7 +78,7 @@
           <input
             type="password"
             name="login-password"
-            id="login-passsword"
+            id="login-password"
             placeholder="*******"
           />
         </div>
@@ -120,7 +120,7 @@
           <input
             type="password"
             name="signup-password"
-            id="signup-passsword"
+            id="signup-password"
             placeholder="********"
           />
         </div>
@@ -130,7 +130,15 @@
         </button>
       </form>
     </template>
+    <section class="toaster-wrapper"></section>
 
-    <script src="scripts/authForms.js"></script>
+    <template id="toaster-positive">
+      <p class="toast toast-positive">TOAST MSG</p>
+    </template>
+    <template id="toaster-negative">
+      <p class="toast toast-negative">TOAST MSG</p>
+    </template>
+
+    <script src="scripts/authForms.js" type="module"></script>
   </body>
 </html>
