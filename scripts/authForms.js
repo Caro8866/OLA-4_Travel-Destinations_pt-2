@@ -27,7 +27,6 @@ document.addEventListener("DOMContentLoaded", function () {
             cred: loginCred,
             password: password,
           };
-          console.log(processedInput);
         } else {
           processedInput = null;
         }
@@ -40,12 +39,13 @@ document.addEventListener("DOMContentLoaded", function () {
             },
             body: JSON.stringify(processedInput),
           })
+            .then((res) => res.json())
             .then((res) => {
-              console.log(res.status);
-              if (res.status === 401) {
+              if (res.success === false) {
                 showToaster("negative", "Incorrect credentials");
               } else {
                 showToaster("positive", "Logged in!");
+                console.log(res.token);
                 form.reset();
               }
             })
