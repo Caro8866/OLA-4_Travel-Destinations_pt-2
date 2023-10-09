@@ -30,6 +30,7 @@ main {
   display: flex;
   gap: 1.1875rem;
   align-items: center;
+  position: relative;
 }
 
 .destination_card > div {
@@ -47,6 +48,25 @@ main {
 
 .destination_card > div > div > a {
   margin-left: 0.5rem;
+}
+
+.destination_actions {
+  position: absolute;
+  top: 0;
+  right: 0;
+  display: flex;
+  flex-direction: row;
+  gap: 0.5rem;
+}
+
+.destination_actions img {
+  opacity: 0.4;
+  transition: 0.5s ease;
+  cursor: pointer;
+}
+
+.destination_actions img:hover {
+  opacity: 0.8;
 }
 
 .card_image {

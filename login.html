@@ -3,10 +3,11 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Update Destination - My Travel Journal</title>
+    <title>Log in - My Travel Journal</title>
     <link rel="stylesheet" href="./style/main.css" />
-    <link rel="stylesheet" href="./style/add_destination_page.css" />
+    <link rel="stylesheet" href="./style/login.css" />
   </head>
+
   <body>
     <header>
       <div class="logo">
@@ -29,6 +30,7 @@
         </svg>
         <a href="index.html" class="type-logo">My travel journal.</a>
       </div>
+
       <a href="login.html" class="login-header">
         <svg
           width="18"
@@ -45,74 +47,89 @@
         <span>Log in</span>
       </a>
     </header>
-    <section class="modal-wrapper hidden">
-      <div class="modal-window">
-        <h2>Delete destination</h2>
-        <p>Are you sure you want to remove <a href="update.html">XYZ</a>?</p>
-        <div>
-          <button class="btn-secondary">Cancel</button>
-          <button class="btn-primary">Delete</button>
-        </div>
-      </div>
-    </section>
+
     <main>
-      <div class="wrapper">
-        <div class="form_header">
-          <h1 class="headline">Update destination</h1>
-          <span>
-            <img src="./img/delete_icon.svg" class="delete_destination" />
-            Delete
-          </span>
-        </div>
-        <form action="" class="update-destination-form">
-          <div class="form-group">
-            <label for="country">Country <span class="required">*</span></label>
-            <select name="country" id="country">
-              <option value="" selected>Select a Country</option>
-            </select>
-          </div>
-          <div class="form-group">
-            <label for="title">Title <span class="required">*</span></label>
-            <input
-              type="text"
-              name="title"
-              id="title"
-              placeholder="Title of your journey"
-            />
-          </div>
-          <div class="form-group">
-            <label for="link">Link</label>
-            <input type="url" name="link" id="link" />
-          </div>
-          <div class="form-group">
-            <label for="arrival-date">Arrival Date</label>
-            <input type="date" name="arrival-date" id="arrival-date" />
-          </div>
-          <div class="form-group">
-            <label for="departure-date">Departure Date</label>
-            <input type="date" name="departure-date" id="departure-date" />
-          </div>
-          <div class="form-group">
-            <label for="description">Description</label>
-            <textarea name="description" id="description" rows="1"></textarea>
-          </div>
-          <div class="form-group">
-            <label for="image">Image</label>
-            <input type="file" name="image" id="image" />
-            <p class="note">Maximum file size is 2mb</p>
-            <div id="current-image-container">
-              <label>Current Image:</label>
-              <img id="current-image" style="max-width: 200px" />
-            </div>
-          </div>
-          <div class="error-message"></div>
-          <div class="buttons">
-            <a href="index.html" class="btn-secondary"> Cancel </a>
-            <button type="submit" class="btn-primary">Save</button>
-          </div>
-        </form>
+      <div id="toggle-form">
+        <button class="headline">Log In</button>
+        <button class="headline">Sign Up</button>
       </div>
+
+      <div id="form_container"></div>
     </main>
+
+    <template id="login_form">
+      <form action="">
+        <div class="form-group">
+          <label for="login-email"
+            >Email or username <span class="required">*</span></label
+          >
+          <input
+            type="text"
+            name="login-email"
+            id="login-email"
+            placeholder="email or username"
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="login-passsword"
+            >Password <span class="required">*</span></label
+          >
+          <input
+            type="password"
+            name="login-password"
+            id="login-password"
+            placeholder="*******"
+          />
+        </div>
+
+        <button type="submit" class="btn-primary" id="login-btn">Log in</button>
+      </form>
+    </template>
+
+    <template id="signup_form">
+      <form action="">
+        <div class="form-group">
+          <label for="signup-username"
+            >Username <span class="required">*</span></label
+          >
+          <input
+            type="text"
+            name="signup-username"
+            id="signup-username"
+            placeholder="username"
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="signup-email"
+            >Email <span class="required">*</span></label
+          >
+          <input
+            type="email"
+            name="signup-email"
+            id="signup-email"
+            placeholder="example@example.com"
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="signup-passsword"
+            >Password <span class="required">*</span></label
+          >
+          <input
+            type="password"
+            name="signup-password"
+            id="signup-password"
+            placeholder="********"
+          />
+        </div>
+
+        <button type="submit" class="btn-primary" id="signup-btn">
+          Sign up
+        </button>
+      </form>
+    </template>
     <section class="toaster-wrapper"></section>
 
     <template id="toaster-positive">
@@ -121,7 +138,7 @@
     <template id="toaster-negative">
       <p class="toast toast-negative">TOAST MSG</p>
     </template>
-    <script type="module" src="scripts/update.js"></script>
-    <script type="module" src="scripts/utils/delete_modal.js"></script>
+
+    <script src="scripts/authForms.js" type="module"></script>
   </body>
 </html>

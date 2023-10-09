@@ -1,0 +1,44 @@
+button {
+	background: none;
+	border: none;
+}
+
+button:hover {
+	cursor: pointer;
+}
+
+#form_container {
+	max-width: 500px;
+	margin: 0 auto;
+	padding: 0 1rem;
+	width: 100%;
+}
+
+form {
+	margin: 2rem auto;
+	width: 100%;
+	display: flex;
+	flex-direction: column;
+}
+
+.btn-primary {
+	width: fit-content;
+	align-self: center;
+}
+
+#toggle-form {
+	display: flex;
+	max-width: 500px;
+	margin: auto;
+	width: 100%;
+	justify-content: space-evenly;
+}
+
+.headline {
+	margin-inline: 0;
+	opacity: 0.5;
+}
+
+.headline.active {
+	opacity: 1;
+}

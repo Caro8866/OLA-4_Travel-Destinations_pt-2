@@ -1,3 +1,4 @@
+import { deleteModal } from "./utils/delete_modal.js";
 // Function to retrieve and display data from local storage
 window.addEventListener("load", () => {
   fetchData();
@@ -32,7 +33,8 @@ window.addEventListener("load", () => {
   });
 });
 
-function fetchData() {
+document.addEventListener("DOMContentLoaded", () => fetchData());
+export function fetchData() {
   fetch("http://localhost:3000/destinations", {
     method: "GET",
     headers: {
@@ -68,8 +70,8 @@ function formatDate(inputDate) {
   return formattedDate;
 }
 
-function displayData(destination) {
-  const template = document.getElementById("destination_card_template");
+export function displayData(destination) {
+  const template = document.querySelector("#destination_card_template");
   const clone = document.importNode(template.content, true);
   const list = document.querySelector(".destinations_list");
 
@@ -81,6 +83,8 @@ function displayData(destination) {
   const cardDescription = clone.querySelector(".card_description");
   const cardImage = clone.querySelector(".card_image");
   const cardDate = clone.querySelector(".card_date");
+  const editIcon = clone.querySelector(".edit_destination");
+  const deleteIcon = clone.querySelector(".delete_destination");
 
   cardCountry.textContent = destination.country;
   cardTitle.textContent = destination.name;
@@ -100,6 +104,11 @@ function displayData(destination) {
   destination.link ? (cardLink.href = destination.link) : cardLink.remove();
 
   destination.image && (cardImage.src = destination.image);
+
+  editIcon.href = `/update.html?id=${destination._id}`;
+  deleteIcon.addEventListener("click", () => {
+    deleteModal(destination._id, destination.name, "destinations");
+  });
 
   list.appendChild(clone);
 }
