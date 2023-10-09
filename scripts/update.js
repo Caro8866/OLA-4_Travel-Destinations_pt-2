@@ -11,7 +11,7 @@ import { deleteModal } from "./utils/delete_modal.js";
 import { checkLoginStatus } from "./utils/check_login_status.js";
 
 function fetchAndPopulate(id) {
-  fetch(`http://localhost:3000/destinations/${id}`)
+  fetch(`http://localhost:3000/destinations/${id}`, {credentials: "include"})
     .then((response) => response.json())
     .then((data) => {
       populateForm(data);
@@ -19,9 +19,11 @@ function fetchAndPopulate(id) {
     .catch((error) => console.error("Error:", error));
 }
 
-const isLoggedIn = await checkLoginStatus();
 
-!isLoggedIn ? window.location.replace("/") : document.addEventListener("DOMContentLoaded", async () => {
+document.addEventListener("DOMContentLoaded", async () => {
+  const isLoggedIn = await checkLoginStatus();
+  !isLoggedIn && window.location.replace("/");
+
   const form = document.querySelector(".update-destination-form");
   const countrySelect = document.querySelector("#country");
 
@@ -127,6 +129,7 @@ const isLoggedIn = await checkLoginStatus();
       description: description.trim(),
       image: base64,
     };
+    console.log(updatedData);
 
     let processedInput = {
       country: country.trim(),

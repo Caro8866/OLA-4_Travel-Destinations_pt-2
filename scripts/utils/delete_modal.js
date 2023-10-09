@@ -19,6 +19,7 @@ export function deleteModal(id, name, location) {
       headers: {
         "Content-Type": "application/json",
       },
+      credentials: "include",
     })
       .then((response) => response.json())
       .then((resJSON) => {

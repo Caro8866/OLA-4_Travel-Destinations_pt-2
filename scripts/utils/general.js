@@ -9,7 +9,7 @@ async function changeHeader() {
 				method: "GET",
 				credentials: "include",
 			})
-				.then((res) => res.ok && location.reload())
+				.then((res) => res.ok && window.location.replace("/"))
 				.catch((error) => console.error("Error:", error));
 		});
 	} else {

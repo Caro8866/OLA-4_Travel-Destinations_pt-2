@@ -49,6 +49,7 @@ document.addEventListener("DOMContentLoaded", function () {
 								showToaster("positive", "Logged in!");
 								console.log(res.token);
 								form.reset();
+								window.location.replace("/");
 							}
 						})
 						.catch((err) => {
