@@ -35,6 +35,7 @@ main {
 
 .destination_card > div {
   width: 100%;
+  padding: 0.8rem 0 0 0;
 }
 
 .destination_card > div > div {
@@ -128,6 +129,26 @@ main {
   display: flex;
   flex-direction: column;
   align-items: center;
+}
+
+/* Styling for search bar */
+#search-bar {
+  width: 29.375rem; /* Same as .container_card width */
+  padding: 0.5rem; /* For a little bit of inner spacing */
+  margin-top: 2.5rem; /* Same as .btn-add margin-top for consistency */
+  margin-bottom: 2.5rem; /* Adds a bottom margin for spacing */
+  font-size: var(--normal-size); /* Using the same font size variable */
+  font-family: Inter; /* Keeping the font consistent */
+  color: var(--neutral-300); /* Same color as other elements */
+  border: 1px solid var(--orange-100); /* To match the .divider */
+  border-radius: 0.3125rem; /* To match the .card_image border-radius */
+}
+
+/* Media queries */
+@media (max-width: 570px) {
+  #search-bar {
+    width: 80%; /* To match the mobile .container_card width */
+  }
 }
 
 @media (max-width: 570px) {
