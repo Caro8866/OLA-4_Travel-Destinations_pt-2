@@ -1,6 +1,8 @@
 import { deleteModal } from "./utils/delete_modal.js";
+import { checkLoginStatus } from "./utils/check_login_status.js";
 
 document.addEventListener("DOMContentLoaded", () => fetchData());
+
 export function fetchData() {
   fetch("http://localhost:3000/destinations", {
     method: "GET",
@@ -38,10 +40,11 @@ function formatDate(inputDate) {
   return formattedDate;
 }
 
-export function displayData(destination) {
+export async function displayData(destination) {
   const template = document.querySelector("#destination_card_template");
   const clone = document.importNode(template.content, true);
   const list = document.querySelector(".destinations_list");
+  const isLoggedIn = await checkLoginStatus();
 
   const cardCountry = clone.querySelector(".card_country");
   const card_arrival_date = clone.querySelector(".card_arrival_date");
@@ -52,10 +55,15 @@ export function displayData(destination) {
   const cardImage = clone.querySelector(".card_image");
   const cardDate = clone.querySelector(".card_date");
   const editIcon = clone.querySelector(".edit_destination");
-  const deleteIcon = clone.querySelector(".delete_destination");
+  const deleteIcon =  clone.querySelector(".delete_destination");
 
   cardCountry.textContent = destination.country;
   cardTitle.textContent = destination.name;
+
+  if(!isLoggedIn) {
+    editIcon.remove();
+    deleteIcon.remove();
+  }
 
   if (!destination["dateStart"] && !destination["dateEnd"]) {
     cardDate.textContent = "No travel dates were provided";

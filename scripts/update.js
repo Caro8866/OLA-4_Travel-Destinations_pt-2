@@ -8,6 +8,7 @@ import { imageToBase64, compressImage } from "./utils/image_helpers.js";
 import countries from "../utils/countries.js";
 import { showToaster } from "./utils/toaster.js";
 import { deleteModal } from "./utils/delete_modal.js";
+import { checkLoginStatus } from "./utils/check_login_status.js";
 
 function fetchAndPopulate(id) {
   fetch(`http://localhost:3000/destinations/${id}`)
@@ -18,7 +19,9 @@ function fetchAndPopulate(id) {
     .catch((error) => console.error("Error:", error));
 }
 
-document.addEventListener("DOMContentLoaded", () => {
+const isLoggedIn = await checkLoginStatus();
+
+!isLoggedIn ? window.location.replace("/") : document.addEventListener("DOMContentLoaded", async () => {
   const form = document.querySelector(".update-destination-form");
   const countrySelect = document.querySelector("#country");
 
@@ -185,6 +188,7 @@ function updateDestination(id, updatedData) {
       "Content-Type": "application/json",
     },
     body: JSON.stringify(updatedData),
+    credentials: "include",
   })
     .then((response) => response.json())
     .then((resJSON) => {

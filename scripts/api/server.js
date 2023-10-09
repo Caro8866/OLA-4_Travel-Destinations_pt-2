@@ -8,18 +8,27 @@ import {
   validateURL,
   validateDates,
 } from "../utils/validate_helpers.js";
-import bcrypt from "bcrypt";
 import jsonwebtoken from "jsonwebtoken";
 import dotenv from "dotenv";
 import passport from "passport";
 import { Strategy as JwtStrategy, ExtractJwt } from "passport-jwt";
+import cookieParser from "cookie-parser";
 
 dotenv.config();
 const app = express();
 const port = 3000;
 const uri = "mongodb://127.0.0.1:27017";
+
+const cookieExtractor = (req) => {
+  let token = null;
+  if (req && req.cookies) {
+    token = req.cookies['access_token'];
+  }
+  return token;
+};
+
 const passportOptions = {
-  jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
+  jwtFromRequest: ExtractJwt.fromExtractors([cookieExtractor]),
   secretOrKey: process.env.JWT_SECRET,
 };
 
@@ -40,15 +49,8 @@ passport.use(
         }
       })
       .catch((error) => done(error, false))
-      .finally(() => {
-        console.log("MongoDB Connection Closed");
-        mongoose.disconnect();
-      });
   })
 );
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-app.use(cors());
 
 const options = {
   origin: [
@@ -58,8 +60,16 @@ const options = {
     "http://127.0.0.1:5500",
   ],
   methods: ["GET", "POST", "PUT", "DELETE"],
-  allowedHeaders: ["X-Requested-With, Content-type"],
+  allowedHeaders: ["Origin, X-Requested-With, Content-Type, Accept"],
+  credentials: true,
 };
+
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(cors(options));
+app.use(cookieParser());
+
+
 
 app.get("/destinations", cors(options), (req, res) => {
   mongoose
@@ -136,7 +146,7 @@ app.post("/destinations", cors(options), (req, res) => {
     .catch((error) => console.log(error));
 });
 
-app.put("/destinations/:id", cors(options), (req, res) => {
+app.put("/destinations/:id", cors(options), passport.authenticate("jwt", { session: false }), (req, res) => {
   mongoose
     .connect(`${uri}/travelJournal`)
     .then(() => {
@@ -166,7 +176,7 @@ app.put("/destinations/:id", cors(options), (req, res) => {
     .catch((error) => console.log(error));
 });
 
-app.delete("/destinations/:id", cors(options), (req, res) => {
+app.delete("/destinations/:id", cors(options), passport.authenticate("jwt", { session: false }), (req, res) => {
   mongoose
     .connect(`${uri}/travelJournal`)
     .then(() => {
@@ -196,7 +206,11 @@ app.post("/auth/login", cors(options), (req, res, next) => {
               { _id: user._id },
               process.env.JWT_SECRET
             );
-            res.status(200).json({
+            res.cookie("access_token", tokenObject, {
+              httpOnly: true,
+              secure: process.env.NODE_ENV === "production",
+            })
+            .status(200).json({
               success: true,
               token: tokenObject,
             });
@@ -220,7 +234,11 @@ app.post("/auth/login", cors(options), (req, res, next) => {
               { _id: user._id },
               process.env.JWT_SECRET
             );
-            res.status(200).json({
+            res.cookie("access_token", tokenObject, {
+              httpOnly: true,
+              secure: process.env.NODE_ENV === "production",
+            })
+            .status(200).json({
               success: true,
               token: tokenObject,
             });
@@ -263,18 +281,35 @@ app.post("/auth/signup", cors(options), (req, res) => {
   });
 });
 
+app.get('/auth/logout', (req, res) => {
+  if (req.cookies.access_token) {
+      res
+      .clearCookie('access_token')
+      .status(200)
+      .json({
+          message: 'You have logged out'
+      })
+  } else {
+      res.status(401).json({
+          error: 'Invalid jwt'
+      })
+  }
+});
+
+
+
 // only for testing purposes can be removed later
-// app.get("/auth/protected", passport.authenticate("jwt", { session: false }), function (req, res, next) {
-//   mongoose
-//     .connect(`${uri}/travelJournal`)
-//     .then(() => {
-//         res.status(200).json({
-//           success: true,
-//           msg: "You are successfully authenticated to this route!",
-//         });
-//     })
-// }
-// );
+app.get("/auth/protected", passport.authenticate("jwt", { session: false }), function (req, res, next) {
+  mongoose
+    .connect(`${uri}/travelJournal`)
+    .then(() => {
+        res.status(200).json({
+          success: true,
+          msg: "You are successfully authenticated to this route!",
+        });
+    })
+}
+);
 
 app.listen(port, () => {
   console.log(`Server is running at: http:localhost:${port}`);
