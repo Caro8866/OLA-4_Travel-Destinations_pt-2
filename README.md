@@ -83,10 +83,10 @@ The learning curve involved learning about and using server-side and client-side
 ## Installation
 
 1. Clone the repository:
-   `git clone [repository_url]`
+   `git clone [[repository_url](https://github.com/Caro8866/OLA-3_Travel-Destinations_pt-1.git)]`
   
 2. Navigate to the project directory:
-   `cd [directory_name]`
+   `cd [OLA-3_Travel-Destinations_pt-1]`
 
 3. Install the necessary packages:
    `npm install`
