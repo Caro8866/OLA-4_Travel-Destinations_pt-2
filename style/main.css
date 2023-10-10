@@ -105,6 +105,21 @@ main {
   padding-top: 2.5rem;
 }
 
+footer {
+  background-color: var(--orange-100);
+  padding: 1rem 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+footer p {
+  color: var(--neutral-100);
+  font-size: 0.8rem;
+  font-weight: var(--fw-light);
+}
+
 .headline,
 h2 {
   font-weight: var(--fw-bold);
