@@ -104,7 +104,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     let base64;
 
-    if (image && image !== document.querySelector("#current-image").src) {
+    if (image && image !== document.querySelector("#current-image")) {
       console.log(document.querySelector("#image"));
       try {
         const compressedImage = await compressImage(image);
@@ -116,7 +116,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         return;
       }
     } else {
-      base64 = document.querySelector("#current-image").src;
+      base64 = document.querySelector("#current-image");
       isImageValid = true;
     }
 
@@ -175,7 +175,7 @@ function populateForm(destination) {
     .split("T")[0];
 
   document.querySelector("#description").value = destination.description;
-  document.querySelector("#current-image").src = destination.image;
+  document.querySelector("#current-image").src = destination.image ? destination.image : "placeholder.jpg";
 
   document
     .querySelector(".form_header span")
