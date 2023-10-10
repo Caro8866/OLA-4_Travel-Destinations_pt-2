@@ -83,7 +83,7 @@ app.get("/destinations", cors(options), (req, res) => {
         )
         .finally(() => {
           console.log("MongoDB Connection Closed");
-          mongoose.disconnect();
+          // mongoose.disconnect();
         });
     })
     .catch((error) => console.log(error));
@@ -101,7 +101,7 @@ app.get("/destinations/:id", cors(options), (req, res) => {
         )
         .finally(() => {
           console.log("MongoDB Connection Closed");
-          mongoose.disconnect();
+          // mongoose.disconnect();
         });
     })
     .catch((error) => console.log(error));
@@ -139,7 +139,7 @@ app.post("/destinations", cors(options), (req, res) => {
           .catch((err) => console.error("Error Saving Destination:", err))
           .finally(() => {
             console.log("MongoDB Connection Closed");
-            mongoose.disconnect();
+            // mongoose.disconnect();
           });
       }
     })
@@ -170,7 +170,7 @@ app.put("/destinations/:id", cors(options), passport.authenticate("jwt", { sessi
         )
         .finally(() => {
           console.log("MongoDB Connection Closed");
-          mongoose.disconnect();
+          // mongoose.disconnect();
         });
     })
     .catch((error) => console.log(error));
@@ -188,7 +188,7 @@ app.delete("/destinations/:id", cors(options), passport.authenticate("jwt", { se
         )
         .finally(() => {
           console.log("MongoDB Connection Closed");
-          mongoose.disconnect();
+          // mongoose.disconnect();
         });
     })
     .catch((error) => console.log(error));
@@ -224,7 +224,7 @@ app.post("/auth/login", cors(options), (req, res, next) => {
         })
         .finally(() => {
           console.log("MongoDB Connection Closed");
-          mongoose.disconnect();
+          // mongoose.disconnect();
         });
     } else {
       User.findOne({ username: req.body.cred })
@@ -252,7 +252,7 @@ app.post("/auth/login", cors(options), (req, res, next) => {
         })
         .finally(() => {
           console.log("MongoDB Connection Closed");
-          mongoose.disconnect();
+          // mongoose.disconnect();
         });
     }
   });
@@ -276,7 +276,7 @@ app.post("/auth/signup", cors(options), (req, res) => {
       .catch((err) => res.json({ success: false, msg: err }))
       .finally(() => {
         console.log("MongoDB Connection Closed");
-        mongoose.disconnect();
+        // mongoose.disconnect();
       });
   });
 });

@@ -1,4 +1,5 @@
 import { showToaster } from "./toaster.js";
+import { formatDate } from "./format_date.js";
 
 export function deleteModal(id, name, location) {
   const modalWrapper = document.querySelector(".modal-wrapper");

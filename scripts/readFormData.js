@@ -1,5 +1,6 @@
 import { deleteModal } from "./utils/delete_modal.js";
 import { checkLoginStatus } from "./utils/check_login_status.js";
+import { formatDate } from "./utils/format_date.js";
 
 document.addEventListener("DOMContentLoaded", () => fetchData());
 
@@ -23,21 +24,6 @@ export function fetchData() {
         list.appendChild(addDestinationsMessage);
       }
     });
-}
-
-function formatDate(inputDate) {
-  const date = new Date(inputDate);
-
-  const options = {
-    year: "numeric",
-    month: "short",
-    day: "numeric",
-  };
-
-  const formatter = new Intl.DateTimeFormat("en-US", options);
-  const parts = formatter.formatToParts(date);
-  const formattedDate = `${parts[2].value} ${parts[0].value}, ${parts[4].value}`;
-  return formattedDate;
 }
 
 export async function displayData(destination) {
