@@ -60,18 +60,20 @@ The learning curve involved learning about and using server-side and client-side
 
 - Built with **Node.js** and **Express.js**.
 - Uses **MongoDB** with **Mongoose** for data modeling, validation and persistence.
-- Provides RESTful routes for CRUD operations:
-  - `GET /destinations`: Fetch all travel destinations.
-  - `POST /destinations`: Add a new travel destination.
-  - `PUT /destinations/:id`: Update a specific travel destination.
-  - `DELETE /destinations/:id`: Delete a specific travel destination.
+- Provides RESTful routes for CRUD operations and User Authentication:
+  - `GET /destinations: Fetches all travel destinations from the database.
+  - POST /destinations: Adds a new travel destination to the database.
+  - GET /destinations/:id: Retrieves a specific travel destination by its ID.
+  - PUT /destinations/:id: Updates a specific travel destination by its ID.
+  - DELETE /destinations/:id: Deletes a specific travel destination by its ID.
+  - POST /auth/login: Handles user login.
+  - POST /auth/signup: Handles user registration.
 
 - **Security and Authentication**  
   - bcrypt for password hashing
   - JSON Web Tokens for authentication
   - Passport.js with JwtStrategy
   - dotenv for environment variable management
-
 
 ## Prerequisites
 
