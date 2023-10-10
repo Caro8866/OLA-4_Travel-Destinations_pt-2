@@ -1,8 +1,37 @@
 import { deleteModal } from "./utils/delete_modal.js";
 import { checkLoginStatus } from "./utils/check_login_status.js";
 import { formatDate } from "./utils/format_date.js";
+// Function to retrieve and display data from local storage
+window.addEventListener("load", () => {
+  fetchData();
 
-document.addEventListener("DOMContentLoaded", () => fetchData());
+
+  const searchBar = document.querySelector("#search-bar");
+  searchBar.addEventListener("keyup", (e) => {
+    const searchString = e.target.value.toLowerCase();
+    const destinations = document.querySelectorAll(".destination_card");
+
+    destinations.forEach((destination) => {
+      const countryElement = destination.querySelector(".card_country");
+      const titleElement = destination.querySelector(".card_title");
+      const descriptionElement = destination.querySelector(".card_description");
+      const dateElement = destination.querySelector(".card_date");
+
+      const country = countryElement ? countryElement.textContent.toLowerCase() : "";
+      const title = titleElement ? titleElement.textContent.toLowerCase() : "";
+      const description = descriptionElement ? descriptionElement.textContent.toLowerCase() : "";
+      const date = dateElement ? dateElement.textContent.toLowerCase() : "";
+
+      const parentContainer = destination.parentElement;
+
+      if (country.includes(searchString) || title.includes(searchString) || description.includes(searchString) || date.includes(searchString)) {
+        parentContainer.style.display = "flex";
+      } else {
+        parentContainer.style.display = "none";
+      }
+    });
+  });
+});
 
 export function fetchData() {
   fetch("http://localhost:3000/destinations", {
@@ -18,8 +47,7 @@ export function fetchData() {
       } else {
         const list = document.querySelector(".destinations_list");
         const addDestinationsMessage = document.createElement("p");
-        addDestinationsMessage.textContent =
-          "You have no destinations in you travel journal.";
+        addDestinationsMessage.textContent = "You have no destinations in you travel journal.";
         addDestinationsMessage.classList.add("no_destinations");
         list.appendChild(addDestinationsMessage);
       }
@@ -54,22 +82,14 @@ export async function displayData(destination) {
   if (!destination["dateStart"] && !destination["dateEnd"]) {
     cardDate.textContent = "No travel dates were provided";
   } else if (destination["dateStart"] && destination["dateEnd"]) {
-    cardDate.textContent = `${formatDate(
-      destination["dateStart"]
-    )} - ${formatDate(destination["dateEnd"])}`;
+    cardDate.textContent = `${formatDate(destination["dateStart"])} - ${formatDate(destination["dateEnd"])}`;
   } else {
-    destination["dateStart"]
-      ? (card_arrival_date.textContent = formatDate(destination["dateStart"]))
-      : card_arrival_date.remove();
+    destination["dateStart"] ? (card_arrival_date.textContent = formatDate(destination["dateStart"])) : card_arrival_date.remove();
 
-    destination["dateEnd"]
-      ? (card_departure_date.textContent = formatDate(destination["dateEnd"]))
-      : card_departure_date.remove();
+    destination["dateEnd"] ? (card_departure_date.textContent = formatDate(destination["dateEnd"])) : card_departure_date.remove();
   }
 
-  destination.description
-    ? (cardDescription.textContent = destination.description)
-    : cardDescription.remove();
+  destination.description ? (cardDescription.textContent = destination.description) : cardDescription.remove();
 
   destination.link ? (cardLink.href = destination.link) : cardLink.remove();
 

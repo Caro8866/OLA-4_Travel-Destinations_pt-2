@@ -51,6 +51,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     const description = document.querySelector("#description").value;
     const image = document.querySelector("#image").files[0];
 
+
     const isValidCountry = validateCountry(country, countries);
     if (!validateNonEmpty(country)) {
       isCountryValid = false;
@@ -90,22 +91,10 @@ document.addEventListener("DOMContentLoaded", async () => {
     } else {
       isDateValid = true;
     }
-
-    // if (image && !validateImage(image)) {
-    //   showToaster("negative", "Image format should be .jpg, .jpeg or .png");
-    //   return;
-    // }
-
-    function base64ToImage(base64) {
-      const image = new Image();
-      image.src = base64;
-      return image;
-    }
-
+    
     let base64;
 
     if (image && image !== document.querySelector("#current-image")) {
-      console.log(document.querySelector("#image"));
       try {
         const compressedImage = await compressImage(image);
         base64 = await imageToBase64(compressedImage);
@@ -116,6 +105,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         return;
       }
     } else {
+      // base64 = document.querySelector("#current-image").src;
       base64 = document.querySelector("#current-image");
       isImageValid = true;
     }
@@ -130,16 +120,6 @@ document.addEventListener("DOMContentLoaded", async () => {
       image: base64,
     };
     console.log(updatedData);
-
-    let processedInput = {
-      country: country.trim(),
-      name: name.trim(),
-      link: link.trim(),
-      dateStart: dateStart,
-      dateEnd: dateEnd,
-      description: description.trim(),
-      image: base64,
-    };
 
     if (
       isCountryValid &&
@@ -163,16 +143,16 @@ function populateForm(destination) {
   }
   document.querySelector("#title").value = destination.name;
   document.querySelector("#link").value = destination.link;
-  document.querySelector("#arrival-date").value = new Date(
+  document.querySelector("#arrival-date").value = destination.dateStart ? new Date(
     destination.dateStart
   )
     .toISOString()
-    .split("T")[0];
-  document.querySelector("#departure-date").value = new Date(
+    .split("T")[0] : "";
+  document.querySelector("#departure-date").value = destination.dateEnd ? new Date(
     destination.dateEnd
   )
     .toISOString()
-    .split("T")[0];
+    .split("T")[0] : "";
 
   document.querySelector("#description").value = destination.description;
   document.querySelector("#current-image").src = destination.image ? destination.image : "placeholder.jpg";

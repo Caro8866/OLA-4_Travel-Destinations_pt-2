@@ -73,6 +73,10 @@
 			<div id="form_container"></div>
 		</main>
 
+		<footer>
+			<p>Copyright 2023, Study Group 8 @CPHBusiness</p>
+		</footer>
+
 		<template id="login_form">
 			<form action="">
 				<div class="form-group">
@@ -140,6 +144,50 @@
 						placeholder="********"
 					/>
 				</div>
+				<template id="signup_form">
+					<form action="">
+						<div class="form-group">
+							<label for="signup-username"
+								>Username <span class="required">*</span></label
+							>
+							<input
+								type="text"
+								name="signup-username"
+								id="signup-username"
+								placeholder="username"
+							/>
+						</div>
+
+						<div class="form-group">
+							<label for="signup-email"
+								>Email <span class="required">*</span></label
+							>
+							<input
+								type="email"
+								name="signup-email"
+								id="signup-email"
+								placeholder="example@example.com"
+							/>
+						</div>
+
+						<div class="form-group">
+							<label for="signup-passsword"
+								>Password <span class="required">*</span></label
+							>
+							<input
+								type="password"
+								name="signup-password"
+								id="signup-password"
+								placeholder="********"
+							/>
+						</div>
+
+						<button type="submit" class="btn-primary" id="signup-btn">
+							Sign up
+						</button>
+					</form>
+				</template>
+				<section class="toaster-wrapper"></section>
 
 				<button type="submit" class="btn-primary" id="signup-btn">
 					Sign up

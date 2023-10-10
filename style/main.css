@@ -66,6 +66,9 @@ header {
 
 body {
 	font-size: 16px;
+	display: grid;
+	grid-template-rows: auto 1fr auto;
+	min-height: 100vh;
 }
 
 .form-group {
@@ -106,6 +109,22 @@ body * {
 
 main {
 	padding-top: 2.5rem;
+}
+
+footer {
+	background-color: var(--orange-100);
+	padding: 1rem 0;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	width: 100%;
+	margin-top: auto;
+}
+
+footer p {
+	color: var(--neutral-100);
+	font-size: 0.8rem;
+	font-weight: var(--fw-light);
 }
 
 .headline,
