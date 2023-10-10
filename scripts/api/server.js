@@ -35,21 +35,20 @@ const passportOptions = {
 // middleware
 passport.use(
   new JwtStrategy(passportOptions, async (jwt_payload, done) => {
-    mongoose
-      .connect(`${uri}/travelJournal`)
-      .then(async () => {
-        console.log("MongoDB Connected...");
-
-        const user = await User.findOne({ id: jwt_payload.sub });
-
+       User.findOne({ id: jwt_payload.sub })
+       .then(user => {
         if (user) {
           return done(null, user);
         } else {
           return done(null, false);
         }
       })
-      .catch((error) => done(error, false))
-  })
+      .catch(error => {
+        // Handle any errors that occurred during the database operation
+        return done(error, false);
+      });
+      }
+    )
 );
 
 const options = {
@@ -72,46 +71,22 @@ app.use(cookieParser());
 
 
 app.get("/destinations", cors(options), (req, res) => {
-  mongoose
-    .connect(`${uri}/travelJournal`)
-    .then(() => {
-      console.log("MongoDB Connected...");
-      Destination.find()
-        .then((destinations) => res.status(200).json(destinations))
-        .catch((err) =>
-          res.status(500).json({ error: "Error Fetching Destinations:", err })
-        )
-        .finally(() => {
-          console.log("MongoDB Connection Closed");
-          // mongoose.disconnect();
-        });
-    })
-    .catch((error) => console.log(error));
+  Destination.find()
+    .then((destinations) => res.status(200).json(destinations))
+    .catch((err) =>
+      res.status(500).json({ error: "Error Fetching Destinations:", err })
+    )
 });
 
 app.get("/destinations/:id", cors(options), (req, res) => {
-  mongoose
-    .connect(`${uri}/travelJournal`)
-    .then(() => {
-      console.log("MongoDB Connected...");
       Destination.findById(req.params.id)
         .then((destination) => res.status(200).json(destination))
         .catch((err) =>
           res.status(500).json({ error: "Error Fetching Destination:", err })
         )
-        .finally(() => {
-          console.log("MongoDB Connection Closed");
-          // mongoose.disconnect();
-        });
-    })
-    .catch((error) => console.log(error));
 });
 
 app.post("/destinations", cors(options), (req, res) => {
-  mongoose
-    .connect(`${uri}/travelJournal`)
-    .then(() => {
-      console.log("MongoDB Connected...");
       if (
         validateNonEmpty(req.body.country) &&
         validateDates(req.body.dateStart, req.body.dateEnd) &&
@@ -137,20 +112,10 @@ app.post("/destinations", cors(options), (req, res) => {
             res.status(201).json({ insertedID: resID });
           })
           .catch((err) => console.error("Error Saving Destination:", err))
-          .finally(() => {
-            console.log("MongoDB Connection Closed");
-            // mongoose.disconnect();
-          });
       }
-    })
-    .catch((error) => console.log(error));
 });
 
 app.put("/destinations/:id", cors(options), passport.authenticate("jwt", { session: false }), (req, res) => {
-  mongoose
-    .connect(`${uri}/travelJournal`)
-    .then(() => {
-      console.log("MongoDB Connected...");
       Destination.findByIdAndUpdate(
         req.params.id,
         {
@@ -168,36 +133,18 @@ app.put("/destinations/:id", cors(options), passport.authenticate("jwt", { sessi
         .catch((err) =>
           res.status(500).json({ error: "Error Updating Destination:", err })
         )
-        .finally(() => {
-          console.log("MongoDB Connection Closed");
-          // mongoose.disconnect();
-        });
-    })
-    .catch((error) => console.log(error));
 });
 
 app.delete("/destinations/:id", cors(options), passport.authenticate("jwt", { session: false }), (req, res) => {
-  mongoose
-    .connect(`${uri}/travelJournal`)
-    .then(() => {
-      console.log("MongoDB Connected...");
       Destination.findByIdAndDelete(req.params.id)
         .then((destination) => res.status(200).json(destination))
         .catch((err) =>
           res.status(500).json({ error: "Error Deleting Destination:", err })
         )
-        .finally(() => {
-          console.log("MongoDB Connection Closed");
-          // mongoose.disconnect();
-        });
-    })
     .catch((error) => console.log(error));
 });
 
 app.post("/auth/login", cors(options), (req, res, next) => {
-  mongoose.connect(`${uri}/travelJournal`).then(() => {
-    console.log("MongoDB Connected...");
-
     if (req.body.cred.includes("@")) {
       User.findOne({ email: req.body.cred })
         .then(async (user) => {
@@ -222,10 +169,6 @@ app.post("/auth/login", cors(options), (req, res, next) => {
         .catch((err) => {
           res.status(401).json({ success: false, msg: "Invalid login" });
         })
-        .finally(() => {
-          console.log("MongoDB Connection Closed");
-          // mongoose.disconnect();
-        });
     } else {
       User.findOne({ username: req.body.cred })
         .then(async (user) => {
@@ -250,18 +193,10 @@ app.post("/auth/login", cors(options), (req, res, next) => {
         .catch((err) => {
           res.status(401).json({ success: false, msg: "Invalid login" });
         })
-        .finally(() => {
-          console.log("MongoDB Connection Closed");
-          // mongoose.disconnect();
-        });
     }
-  });
 });
 
-app.post("/auth/signup", cors(options), (req, res) => {
-  mongoose.connect(`${uri}/travelJournal`).then(async () => {
-    console.log("MongoDB Connected...");
-
+app.post("/auth/signup", cors(options), async (req, res) => {
     const newUser = new User({
       username: req.body.username,
       email: req.body.email,
@@ -274,11 +209,6 @@ app.post("/auth/signup", cors(options), (req, res) => {
         res.json({ success: true, user: user });
       })
       .catch((err) => res.json({ success: false, msg: err }))
-      .finally(() => {
-        console.log("MongoDB Connection Closed");
-        // mongoose.disconnect();
-      });
-  });
 });
 
 app.get('/auth/logout', (req, res) => {
@@ -296,21 +226,21 @@ app.get('/auth/logout', (req, res) => {
   }
 });
 
-
-
-// only for testing purposes can be removed later
-app.get("/auth/protected", passport.authenticate("jwt", { session: false }), function (req, res, next) {
-  mongoose
-    .connect(`${uri}/travelJournal`)
-    .then(() => {
-        res.status(200).json({
-          success: true,
-          msg: "You are successfully authenticated to this route!",
-        });
-    })
+app.get("/auth/protected", passport.authenticate("jwt", { session: false }), function (req, res) {
+  res.status(200).json({
+    success: true,
+    msg: "You are successfully authenticated to this route!",
+  });
 }
 );
 
-app.listen(port, () => {
-  console.log(`Server is running at: http:localhost:${port}`);
+// Connect to MongoDB when the server starts
+mongoose.connect(`${uri}/travelJournal`).then(() => {
+  console.log('MongoDB Connected...');
+  
+  app.listen(port, () => {
+    console.log(`Server is running at: http://localhost:${port}`);
+  });
+}).catch(error => {
+  console.error('MongoDB Connection Error:', error);
 });
