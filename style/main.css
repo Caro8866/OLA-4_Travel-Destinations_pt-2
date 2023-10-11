@@ -196,10 +196,11 @@ p {
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
-  justify-content: flex-end;
+  justify-content: flex-start;
   pointer-events: none;
-  align-items: center;
-  padding-bottom: 1.5rem;
+  align-items: flex-end;
+  padding: 1rem;
+  padding-top: 4.8rem;
 }
 
 .toast {
@@ -212,12 +213,12 @@ p {
   height: fit-content;
   display: flex;
   justify-content: center;
-  transform: translateY(6rem);
-  transition: 0.4s ease-in-out;
+  opacity: 0;
+  transition: 0.3s ease-in-out;
 }
 
 .show-toast {
-  transform: translateY(-2.5rem);
+  opacity: 1;
 }
 
 .toast-positive {
