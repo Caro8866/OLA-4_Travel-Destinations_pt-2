@@ -1,4 +1,5 @@
 import { showToaster } from "./toaster.js";
+import { formatDate } from "./format_date.js";
 
 export function deleteModal(id, name, location) {
   const modalWrapper = document.querySelector(".modal-wrapper");
@@ -19,6 +20,7 @@ export function deleteModal(id, name, location) {
       headers: {
         "Content-Type": "application/json",
       },
+      credentials: "include",
     })
       .then((response) => response.json())
       .then((resJSON) => {

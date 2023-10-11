@@ -1,10 +1,10 @@
 import { deleteModal } from "./utils/delete_modal.js";
+import { checkLoginStatus } from "./utils/check_login_status.js";
+import { formatDate } from "./utils/format_date.js";
 // Function to retrieve and display data from local storage
 window.addEventListener("load", () => {
   fetchData();
 
-  /*   const loader = document.querySelector(".loader");
-  loader.classList.add("hidden"); */
 
   const searchBar = document.querySelector("#search-bar");
   searchBar.addEventListener("keyup", (e) => {
@@ -33,7 +33,6 @@ window.addEventListener("load", () => {
   });
 });
 
-document.addEventListener("DOMContentLoaded", () => fetchData());
 export function fetchData() {
   fetch("http://localhost:3000/destinations", {
     method: "GET",
@@ -55,25 +54,11 @@ export function fetchData() {
     });
 }
 
-function formatDate(inputDate) {
-  const date = new Date(inputDate);
-
-  const options = {
-    year: "numeric",
-    month: "short",
-    day: "numeric",
-  };
-
-  const formatter = new Intl.DateTimeFormat("en-US", options);
-  const parts = formatter.formatToParts(date);
-  const formattedDate = `${parts[2].value} ${parts[0].value}, ${parts[4].value}`;
-  return formattedDate;
-}
-
-export function displayData(destination) {
+export async function displayData(destination) {
   const template = document.querySelector("#destination_card_template");
   const clone = document.importNode(template.content, true);
   const list = document.querySelector(".destinations_list");
+  const isLoggedIn = await checkLoginStatus();
 
   const cardCountry = clone.querySelector(".card_country");
   const card_arrival_date = clone.querySelector(".card_arrival_date");
@@ -84,10 +69,15 @@ export function displayData(destination) {
   const cardImage = clone.querySelector(".card_image");
   const cardDate = clone.querySelector(".card_date");
   const editIcon = clone.querySelector(".edit_destination");
-  const deleteIcon = clone.querySelector(".delete_destination");
+  const deleteIcon =  clone.querySelector(".delete_destination");
 
   cardCountry.textContent = destination.country;
   cardTitle.textContent = destination.name;
+
+  if(!isLoggedIn) {
+    editIcon.remove();
+    deleteIcon.remove();
+  }
 
   if (!destination["dateStart"] && !destination["dateEnd"]) {
     cardDate.textContent = "No travel dates were provided";
