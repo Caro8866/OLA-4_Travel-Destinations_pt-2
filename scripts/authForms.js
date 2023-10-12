@@ -47,7 +47,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 showToaster("negative", "Incorrect credentials");
               } else {
                 showToaster("positive", "Logged in!");
-                console.log(res.token);
+                // console.log(res.token);
                 form.reset();
                 window.location.replace("/");
               }
@@ -114,7 +114,6 @@ document.addEventListener("DOMContentLoaded", function () {
               }
             });
         } else {
-          console.log("FILL OUT THE FORM");
           showToaster("negative", "Fill out the form fields");
         }
       });
