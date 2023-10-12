@@ -1,6 +1,6 @@
 # OLA-4 Travel Destination (Part 2)
 
-Repository link - https://github.com/Caro8866/OLA-3_Travel-Destinations_pt-1
+Repository link - https://github.com/Caro8866/OLA-3_Travel-Destinations_pt-2
 
 This project focuses on creating a web application designed for recording and viewing travel destinations. Initially started as a simple NodeJs/Express backend with MongoDB and vanilla JavaScript frontend, the application was later extended to incorporate Mongoose, bcrypt, JSON Web Tokens, dotenv, and Passport. This enhancement improved database interactions, enabled secure user authentication, and streamlined environment variable management.
 
