@@ -105,8 +105,6 @@ document.addEventListener("DOMContentLoaded", async () => {
         return;
       }
     } else {
-      // base64 = document.querySelector("#current-image").src;
-      base64 = document.querySelector("#current-image");
       isImageValid = true;
     }
 
