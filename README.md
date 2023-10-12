@@ -1,4 +1,4 @@
-# OLA-3 Travel Destination
+# OLA-4 Travel Destination (Part 2)
 
 Repository link - https://github.com/Caro8866/OLA-3_Travel-Destinations_pt-1
 
@@ -85,7 +85,7 @@ The learning curve involved learning about and using server-side and client-side
 ## Installation
 
 1. Clone the repository:
-   `git clone [[repository_url](https://github.com/Caro8866/OLA-3_Travel-Destinations_pt-1.git)]`
+   `git clone [(https://github.com/Caro8866/OLA-3_Travel-Destinations_pt-1.git)]`
   
 2. Navigate to the project directory:
    `cd [OLA-3_Travel-Destinations_pt-1]`
